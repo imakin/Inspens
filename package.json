@@ -1,0 +1,22 @@
+{
+  "name": "Inspens",
+  "version": "0.0.0",
+  "description": "Income Expense manager made by the user itself",
+  "main": "index.js",
+  "scripts": {
+    "test": "ls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/imakin/Inspens"
+  },
+  "author": "Izzulmakin",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/imakin/Inspens/issues"
+  },
+  "dependencies": {
+    "cordova": "*",
+    "bower": "*"
+  }
+}
