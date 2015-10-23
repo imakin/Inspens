@@ -45,6 +45,17 @@ else
 		# not using Y/N question but ask user to ctrl-c if not okay (for automation)
 		echo "This script will assist you to install cordova on this project folder (for automation sake). If it is not oke manually close this script"
 		npm install
+		# -- re export node modules bin PATH
+		if [ -d "$PWD/node_modules/.bin" ]
+		then
+			_OLD_PATH="$PATH"
+			PATH="$PATH:$PWD/node_modules/.bin"
+			export PATH
+
+			echo "Env set. Deactivate this env by call 'deactivate'"
+			echo "Installed modules: "
+			ls node_modules/.bin/
+		fi
 	fi
 
 	_OLD_PS1="$PS1"
