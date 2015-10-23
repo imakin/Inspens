@@ -70,7 +70,10 @@ else
 	# check & install cordova plugins/platform 
 	for platform in "${PLATFORMS[@]}"
 	do
-		if [ ! -d "platform/$platform" ]; then
+		if [ ! -d "platforms" ]; then
+			mkdir platform
+		fi
+		if [ ! -d "platforms/$platform" ]; then
 			cordova platforms add "$platform"
 		else
 			echo "the folder platform $platform exists, assumed to be already installed (remove first to reinstall) [ok]"
@@ -79,6 +82,9 @@ else
 
 	for plugin in "${PLUGINS[@]}"
 	do
+		if [ ! -d "plugins" ]; then
+			mkdir platform
+		fi
 		if [ ! -d "plugins/$plugin" ]; then
 			cordova plugin add "$plugin"
 		else
