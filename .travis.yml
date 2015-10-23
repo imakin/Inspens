@@ -2,8 +2,9 @@ language: node_js
 node_js:
   - "0.12"
 before_script: 
-  - source activate
+  - echo "$PWD" && source activate
 script: 
+- echo "$PWD" && ls
 - ls platforms/android
 - ls plugins/cordova-plugin-console/
 - ls plugins/cordova-plugin-device/
