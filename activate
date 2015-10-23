@@ -2,38 +2,76 @@
 # must be used by calling "source activate" (from bash), from root project dir
 # you cannot run it directly
 
+SOURCE_DIR="Inspens"
+# this is plugins used in cordova project
+declare -a PLUGINS=('cordova-plugin-device' 'cordova-plugin-console' 'com.admob.plugin');
+declare -a PLATFORMS=('android');
+
 if ! [ -f "activate" ] ; then
-	echo "source activate must be run on project directory"
+	echo "source activate must be run on project directory, it is the folder containing activate script & package.json"
 	echo "cd to project directory then 'source activate'"
 else
+	echo "(c) Izzulmakin 2015"
 	if [ -n "$_INSPENSE_VENV" ] ; then
 		echo "reactivate"
 		deactivate
 	fi
-
-	SOURCE_DIR="Inspens"
-
+	
 	_INSPENSE_VENV="$PWD"
 	export _INSPENSE_VENV
 
-	_OLD_PATH="$PATH"
-	PATH="$PATH:$PWD/node_modules/.bin"
-	export PATH
+	if [ -d "$PWD/node_modules/.bin" ]
+	then
+		_OLD_PATH="$PATH"
+		PATH="$PATH:$PWD/node_modules/.bin"
+		export PATH
+
+		echo "Env set. Deactivate this env by call 'deactivate'"
+		echo "Installed modules: "
+		ls node_modules/.bin/
+	fi
+
+	# install required cordova (package.json)
+	if hash cordova 2>/dev/null
+	then 
+		echo "cordova found"
+	else
+		#read -p "This script can assist you to install cordova on this project folder, is it oke?" yn
+		#case $yn in
+		#	[Yy]* ) echo "installing cordova for you"; npm install; break;;
+		#	[Nn]* ) echo "manually install cordova and set env before continue"; break;;
+		#	* ) echo "Please answer yes or no.";;
+		#esac
+		# not using Y/N question but ask user to ctrl-c if not okay (for automation)
+		echo "This script will assist you to install cordova on this project folder (for automation sake). If it is not oke manually close this script"
+		npm install
+	fi
 
 	_OLD_PS1="$PS1"
 	PS1="(Inspens) $PS1"
 	export PS1
 
-	echo "Env set. Deactivate this env by call 'deactivate'"
-	echo "Installed modules: "
-	ls node_modules/.bin/
-
+	# cd to cordova source dir
 	cd "$SOURCE_DIR"
+
 	# check & install cordova plugins/platform 
-	cordova platforms add android
-	cordova plugin add org.apache.cordova.device
-	cordova plugin add org.apache.cordova.console
-	cordova plugin add com.admob.plugin
+	for platform in "${PLATFORMS[@]}"
+	do
+		if [ ! -d "platform/$platform" ]; then
+			cordova platforms add "$platform"
+		else
+			echo "the folder platform $platform exists, assumed to be already installed (remove first to reinstall) [ok]"
+		fi
+	done
+
+	for plugin in "${PLUGINS[@]}"
+	do
+		if [ ! -d "plugins/$plugin" ]; then
+			cordova plugin add "$plugin"
+		else
+			echo "the folder plugin $plugin exists, assumed to be already installed (remove first to reinstall) [ok]"
+		fi
+	done
 
 	deactivate () {
 		if [ -n "$_INSPENSE_VENV" ] ; then
