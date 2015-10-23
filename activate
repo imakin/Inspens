@@ -74,6 +74,7 @@ else
 			mkdir platforms
 		fi
 		if [ ! -d "platforms/$platform" ]; then
+			which cordova
 			cordova platforms add "$platform"
 		else
 			echo "the folder platform $platform exists, assumed to be already installed (remove first to reinstall) [ok]"
@@ -86,6 +87,7 @@ else
 			mkdir plugins
 		fi
 		if [ ! -d "plugins/$plugin" ]; then
+			which cordova
 			cordova plugin add "$plugin"
 		else
 			echo "the folder plugin $plugin exists, assumed to be already installed (remove first to reinstall) [ok]"
