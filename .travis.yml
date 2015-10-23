@@ -4,6 +4,7 @@ node_js:
 before_script: 
   - source activate
 script: 
-- ls Inspens
+- ls
+- echo "$PWD"
 - ls node_modules/.bin
 - hash cordova
