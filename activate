@@ -71,7 +71,7 @@ else
 	for platform in "${PLATFORMS[@]}"
 	do
 		if [ ! -d "platforms" ]; then
-			mkdir platform
+			mkdir platforms
 		fi
 		if [ ! -d "platforms/$platform" ]; then
 			cordova platforms add "$platform"
@@ -83,7 +83,7 @@ else
 	for plugin in "${PLUGINS[@]}"
 	do
 		if [ ! -d "plugins" ]; then
-			mkdir platform
+			mkdir plugins
 		fi
 		if [ ! -d "plugins/$plugin" ]; then
 			cordova plugin add "$plugin"
