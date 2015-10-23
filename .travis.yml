@@ -1,4 +1,9 @@
 language: node_js
 node_js:
   - "0.12"
-script: source activate
+before_script: 
+  - source activate
+script: 
+- ls Inspens
+- ls node_modules/.bin
+- hash cordova
