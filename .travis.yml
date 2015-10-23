@@ -4,7 +4,8 @@ node_js:
 before_script: 
   - source activate
 script: 
-- ls
-- echo "$PWD"
-- ls node_modules/.bin
+- ls platforms/android
+- ls plugins/cordova-plugin-console/
+- ls plugins/cordova-plugin-device/
+- ls plugins/com.admob.plugin/
 - hash cordova
