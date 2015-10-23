@@ -1,7 +1,6 @@
 # @Izzulmakin 2015
 # must be used by calling "source activate" (from bash), from root project dir
 # you cannot run it directly
-# adapted from python virtualenv
 
 if ! [ -f "activate" ] ; then
 	echo "source activate must be run on project directory"
@@ -11,6 +10,8 @@ else
 		echo "reactivate"
 		deactivate
 	fi
+
+	SOURCE_DIR="Inspens"
 
 	_INSPENSE_VENV="$PWD"
 	export _INSPENSE_VENV
@@ -26,6 +27,13 @@ else
 	echo "Env set. Deactivate this env by call 'deactivate'"
 	echo "Installed modules: "
 	ls node_modules/.bin/
+
+	cd "$SOURCE_DIR"
+	# check & install cordova plugins/platform 
+	cordova platforms add android
+	cordova plugin add org.apache.cordova.device
+	cordova plugin add org.apache.cordova.console
+	cordova plugin add com.admob.plugin
 
 	deactivate () {
 		if [ -n "$_INSPENSE_VENV" ] ; then
