@@ -4,7 +4,7 @@ node_js:
 before_script: 
   - echo "$PWD" && source activate
 script: 
-- echo "$PWD" && ls
+- echo "$PWD" && echo "$PATH" && ls
 - ls platforms/android
 - ls plugins/cordova-plugin-console/
 - ls plugins/cordova-plugin-device/
