@@ -4,7 +4,7 @@
 
 SOURCE_DIR="Inspens"
 # this is plugins used in cordova project
-declare -a PLUGINS=('cordova-plugin-device' 'cordova-plugin-console' 'com.admob.plugin');
+declare -a PLUGINS=('cordova-plugin-device' 'cordova-plugin-console' 'com.admob.plugin' 'org.apache.cordova.dialogs');
 declare -a PLATFORMS=('android');
 
 if ! [ -f "activate" ] ; then
