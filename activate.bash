@@ -7,7 +7,7 @@ SOURCE_DIR="Inspens"
 declare -a PLUGINS=('cordova-plugin-device' 'cordova-plugin-console' 'com.admob.plugin' 'org.apache.cordova.dialogs');
 declare -a PLATFORMS=('android');
 
-if ! [ -f "activate" ] ; then
+if ! [ -f "activate.bash" ] ; then
 	echo "source activate must be run on project directory, it is the folder containing activate script & package.json"
 	echo "cd to project directory then 'source activate'"
 else
