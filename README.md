@@ -1,1 +1,1 @@
-start with `source activate`
+start with `source activate.bash`
