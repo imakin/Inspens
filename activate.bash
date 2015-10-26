@@ -109,6 +109,15 @@ else
 		unset -f deactivate
 	}
 
+	autocompile () {
+		echo "auto compile .sass active"
+		nohup bash "$_INSPENSE_VENV/compile.bash" "$_INSPENSE_VENV"> /tmp/inspenscompile &
+	}
+	stopcompile () {
+		kill $(ps aux | grep compile.bash | grep -v "grep" | cut -d " " -f4)
+	}
+
+
 	# This should detect bash and zsh, which have a hash command that must
 	# be called to get it to forget past commands.  Without forgetting
 	# past commands the $PATH changes we made may not be respected
