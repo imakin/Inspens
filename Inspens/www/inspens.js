@@ -43,17 +43,50 @@ app.controller('MainController', function($rootScope, $scope, $location){
 		$location.url( path );
 	};
 	
+	$scope.base_account_num = 0;
+	var db = window.sqlitePlugin.openDatabase({name: "Inspens.db"});
+	db.transaction(function(tx){
+		tx.executeSql(
+			"SELECT id,name FROM accounts WHERE enabled=1 AND type=?", ["BASE"],
+			function(tx,res) {
+				$scope.base_account_num = res.rows.length;
+			},
+			function(e){}
+		);
+	});
 	$scope.base_account_page = 0;
 	$scope.change_base_account = function(page) {
 		$scope.base_account_page = page;
 	}
 	$scope.change_base_account_prev = function() {
-		if ($scope.base_account_page>0)
+		if ($scope.base_account_page>0) {
 			$scope.base_account_page -= 1;
+			$scope.summary_refresh();
+		}
 	}
 	$scope.change_base_account_next = function() {
-		if (true)
+		if ($scope.base_account_page<($scope.base_account_num-1)) {
 			$scope.base_account_page += 1;
+			$scope.summary_refresh();
+		}
+	}
+	
+	$scope.summary_refresh = function() {
+		$scope.summary_last_period_balance = 500000;
+		$scope.summary_total_expense = 400000;
+		$scope.summary_balance = $scope.summary_last_period_balance - $scope.summary_total_expense;
+		
+		//~ var db = window.sqlitePlugin.openDatabase({name: "Inspens.db"});
+		//~ db.transaction(function(tx){
+			//~ tx.executeSql(
+				//~ "SELECT id,name FROM accounts WHERE enabled=1 AND type=?", ["BASE"],
+				//~ function(tx,res) {
+					//~ $scope.base_account_num = res.rows.length;
+					//~ $scope.base_account_name = res.rows.item($scope.base_account_page).name;
+				//~ },
+				//~ function(e){}
+			//~ );
+		//~ });
 	}
 });
 

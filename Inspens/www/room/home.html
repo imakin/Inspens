@@ -1,6 +1,35 @@
-<div class="scrollable">
-	<h1 class="scrollable-header">{{base_account_name}}{{base_account_page}} <small>base:</small></h1>  
-	<div class="scrollable-content">
+<div class="scrollable page">
+	<h1 class="scrollable-header"><small>base: {{base_account_name}}{{base_account_page}}/{{base_account_num}} </small></h1>  
+	<div class="scrollable-content ">
+		
+		<div class="centerer">
+			Summary
+		</div>
+		<div class="centerer">
+			Period is [x to x]
+		</div>
+		
+		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 lefter">
+				Last Period Balance
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 righter">
+				{{summary_last_period_balance}}
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 lefter">
+				Total Expense
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 righter">
+				{{summary_total_expense}}
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 lefter">
+				Balance
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 righter">
+				{{summary_balance}}
+			</div>
+		</div>
+		
 		
 	</div>
 </div>

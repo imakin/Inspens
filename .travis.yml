@@ -3,7 +3,7 @@ node_js:
   - "0.12"
 install: ls
 before_script: 
-  - echo "$PWD" && source activate
+  - echo "$PWD" && source activate.bash
 script: 
 - echo "$PWD" && echo "$PATH" && ls
 - ls platforms/android

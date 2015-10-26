@@ -1,4 +1,15 @@
 .page {
   background: white;
   box-sizing: border-box;
-  width: 100%; }
+  width: 100%;
+  min-height: 100%;
+  padding: 5%; }
+
+.centerer {
+  text-align: center; }
+
+.lefter {
+  text-align: left; }
+
+.righter {
+  text-align: right; }

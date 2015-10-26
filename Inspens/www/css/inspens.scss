@@ -2,4 +2,15 @@
 	background:white;
 	box-sizing: border-box; // like old internet explorer sizing
 	width:100%;
+	min-height:100%;
+	padding: 5%;
+}
+.centerer{
+	text-align: center;
+}
+.lefter{
+	text-align:left;
+}
+.righter{
+	text-align:right;
 }
