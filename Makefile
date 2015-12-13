@@ -6,3 +6,4 @@ SOURCES = $(SASSFILES:.scss=.css)
 	sass  $< > $@
 
 all: $(SOURCES)
+	python Inspens/www/room/compile.py Inspens/www/room/

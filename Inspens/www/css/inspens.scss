@@ -1,16 +1,43 @@
+$fontsizedefault: 10pt;
 .page{
 	background:white;
 	box-sizing: border-box; // like old internet explorer sizing
 	width:100%;
 	min-height:100%;
 	padding: 5%;
+	font-size: $fontsizedefault;
 }
-.centerer{
+.centerer, .mid, .center{
 	text-align: center;
 }
-.lefter{
+.lefter, .left{
 	text-align:left;
 }
-.righter{
+.righter, .right{
 	text-align:right;
+}
+.full{
+	display:block;
+}
+.half{
+	display:inline-block;
+	width:49.5%;
+}
+.grid-container{
+	font-size:0px;
+	div {font-size:$fontsizedefault;}
+	.half{
+		display:inline-block;
+		width:49.5%;
+		font-size:$fontsizedefault;
+	}
+}
+.template{
+	display:none;
+}
+.hr{
+	display:block;
+	height:2px;
+	min-width:95%;
+	background:#5C5C5C;
 }
