@@ -44,3 +44,12 @@ $fontsizedefault: 10pt;
 	min-width:95%;
 	background:#5C5C5C;
 }
+#page-container{
+	display:block;
+	width:100%;
+	.dummy{}
+	div{
+		display:inline-block;
+		width:100%;
+	}
+}
