@@ -25,7 +25,7 @@ $fontsizedefault: 10pt;
 }
 .grid-container{
 	font-size:0px;
-	.scchl{clear:both;}
+	.dummy{clear:both;}
 	div {
 		font-size:$fontsizedefault;
 	}
@@ -45,11 +45,20 @@ $fontsizedefault: 10pt;
 	background:#5C5C5C;
 }
 #page-container{
+	/*defined in style.js*/
 	display:block;
-	width:100%;
-	.dummy{}
-	div{
+	width:300%;
+	position:absolute;
+	font-size:0px;
+	.dummy{clear:both;}
+	&>div{
+		font-size:$fontsizedefault;
 		display:inline-block;
-		width:100%;
+	}
+	#page{
+	}
+	#page-left{
+	}
+	#page-right{
 	}
 }

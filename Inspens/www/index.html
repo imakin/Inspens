@@ -38,27 +38,37 @@
         <title>Inspens</title>
         <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
         
-        <!-- Register rooms here -->
-        <script type="text/javascript" src="room/home.js"></script>
+        <!-- Register rooms first right here -->
+        <script type="text/javascript" src="views/home.js"></script>
+        <script type="text/javascript" src="views/console.js"></script>
         <!-- end of rooms -->
         
         <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
         <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
-        <script type="text/javascript" src="js/template.js"></script> <!-- room handling goes in template.js -->
+        <script type="text/javascript" src="js/template.js"></script> <!-- room handling -->
         
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         
         <link rel="stylesheet" href="css/inspens.css" />
         <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css"/>
+        <!-- styling js -->
+        <script type="text/javascript" src="js/style.js"></script>
+        
+        <!-- model js goes here -->
+        <script type="text/javascript" src="model/core.js"></script> <!-- core goes first-->
+        <script type="text/javascript" src="model/home.js"></script>
+        <script type="text/javascript" src="model/console.js"></script>
         
     </head>
     <body>
         <div id="title">hai</div>
         <div id="page-container">
+			<div id="page-left"></div>
 			<div id="page">
 				<!-- main container -->
 			</div>
+			<div id="page-right"></div>
         </div>
     </body>
 </html>

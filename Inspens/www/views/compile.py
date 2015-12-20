@@ -1,6 +1,6 @@
 import os
 import sys
-
+# Makin Dec 2015
 roomdir = '.'
 try:
 	roomdir = sys.argv[1]

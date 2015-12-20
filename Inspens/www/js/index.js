@@ -35,7 +35,7 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
         
-		var db = window.sqlitePlugin.openDatabase({name: "Inspens.db"});
+		db = window.sqlitePlugin.openDatabase({name: "Inspens.db"});
 		db.transaction(function(tx) {
 			tx.executeSql(
 				"SELECT name FROM sqlite_master WHERE type='table' AND name='accounts'", [],

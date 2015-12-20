@@ -20,43 +20,16 @@ TemplateEngine = function(html, options) {
 	return result;
 }
 
-// Register room in index.html, folder room/[name].js
+// Register room in index.html, 
+// store room template at folder room/[name].html, compiled to .js by make all (see Makefile)
+scroll_done = true;
 function refresh(room_template, context) {
 	compiledpage = TemplateEngine(
 		room_template, context
 	);
 	$("#page").html(compiledpage);
+	refresh_style(); //reload css related styles: style.js
 }
-$(function() {
-	ctx = {
-			setting: {
-				period_change: "1 to 1",
-				currency: "IDR"
-			},
-			summary: {
-				last_period_balance: 0,
-				total_income: 0,
-				total_expense: 200000,
-				total_transfer_income: 500000,
-				total_transfer_expense: 0
-			},
-			base: {
-				number: 1,
-				total: 6,
-				name: "Cash in Hand"
-			},
-	};
-	refresh(room_home, ctx);
+ctx = {}
+$(function(){refresh(room_console, ctx);});
 	
-	$(window).on("swipe",function (e) {
-		console.log(e)
-			if ((e.swipestart.coords[0]-e.swipestop.coords[0])>50){
-				ctx.base.number -= 1;
-			} 
-			else if ((e.swipestart.coords[0]-e.swipestop.coords[0])<-50){
-				ctx.base.number += 1;
-			} 
-			console.log((e.swipestart.coords[0]-e.swipestop.coords[0]))
-	refresh(room_home, ctx);
-		})
-});
