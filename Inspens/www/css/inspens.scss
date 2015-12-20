@@ -25,7 +25,10 @@ $fontsizedefault: 10pt;
 }
 .grid-container{
 	font-size:0px;
-	div {font-size:$fontsizedefault;}
+	.scchl{clear:both;}
+	div {
+		font-size:$fontsizedefault;
+	}
 	.half{
 		display:inline-block;
 		width:49.5%;
