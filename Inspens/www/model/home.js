@@ -27,41 +27,33 @@ function scroll(room_template, context, direction, speed) {
 		leftto = 0;
 		targetdiv = "#page-left"
 	}
-	scroll_done = false;
-	compiledpage = TemplateEngine(
-		room_template, context
-	);
-	$(targetdiv).html(compiledpage);
-	refresh_style(); //reload css related styles
-	$("#page-container").animate(
-		{left:leftto},
-		{
-			duration: speed,
-			complete: function(){
-				$("#page").html(compiledpage);
-				scroll_done = true;
-			}
+	not_currently_scrolling = false;
+	TemplateEngine(
+		room_template,
+		context,
+		function(compiledpage){
+			$(targetdiv).html(compiledpage);
+			refresh_style(); //reload css related styles			
+			$("#page-container").animate(
+				{left:leftto},
+				{
+					duration: speed,
+					complete: function(){
+						$("#page").html(compiledpage);
+						not_currently_scrolling = true;
+					}
+				}
+			);
 		}
 	);
 }
 $(function() {
-	
+	not_currently_scrolling = true;
 	$(window).on(
 		"swipe",
 		function (e) {
-			if (scroll_done)
+			if (not_currently_scrolling)
 			{
-				getMonthSummary("EXPENSE", 0, "BETWEEN", -1,
-					function(tx, res){
-						if (res.rows.length<1)
-							ctx.summary.total_expense = 0.0;
-						else
-							ctx.summary.total_expense = parseFloat(res.rows.item(0).sum_amount);
-						console.log("MAKINLOG: "+res.rows.length+" len, item"+res.rows.item(0) + 
-							" = " + res.rows.item(0).sum_amount
-						);
-					}
-				);
 				if ((e.swipestart.coords[0]-e.swipestop.coords[0])>30
 					&& ctx.base.number<6
 				){
@@ -74,6 +66,24 @@ $(function() {
 					ctx.base.number -= 1;
 					scroll(room_home, ctx, "left", (e.swipestop.time - e.swipestart.time)*2);
 				}
+				getMonthSummary("EXPENSE", 0, "BETWEEN", -1, ctx.base.number,
+					function(tx, res){
+						penghasilan = res;
+						if (res.rows.length<1) {
+							ctx.summary.total_expense = 0.0;
+							refresh(room_home, ctx);
+						}
+						else {
+							ctx.summary.total_expense = parseFloat(res.rows.item(0).sum_amount);
+							refresh(room_home, ctx);
+						}
+						console.log(
+							"MAKINLOG: "+
+							res.rows.length+" len, item"+ 
+							res.rows.item(0).sum_amount
+						);
+					}
+				);
 			}
 		}
 	);
@@ -87,7 +97,7 @@ function zeroFill( number, width )
 	}
 	return number + ""; // always return a string
 }
-function getMonthSummary(type, month, scope, specificAccountId, cbfunction){
+function getMonthSummary(type, month, scope, specificAccountId, baseAccountId, cbfunction){
 	//-- type: 'INCOME', 'EXPENSE', 'TRANSFERINCOME', 'TRANSFEREXPENSE'
 	//-- month is month number 1=jan, 2=feb, 3=mar
 	//--    or relative to current month 0=thismonth -1=last month, -2 before last month
@@ -97,6 +107,9 @@ function getMonthSummary(type, month, scope, specificAccountId, cbfunction){
 	//-- 	like passing (3) will set specific for Accounts[3]: "Main Income" 
 	//-- 	(basic account defined in index.js)
 	//--    only work for EXPENSE & INCOME type, doesn't work for TRANSFERINCOME/TRANSFEREXPENSE
+	//-- baseAccountId is mandatory, it is the Expense/Income account target
+	//--	e.g. 2 is Bank account, the month summary calculated for the specific bank account
+	//--	TODO: -1 for all sum
 	//-- cbfunction receives (tx, res) argument
 	//-- 	res is result of the query res.rows.item(0).sum_amount is the result 
 	var account_filter;
@@ -129,21 +142,17 @@ function getMonthSummary(type, month, scope, specificAccountId, cbfunction){
 	else if (scope == "ALL")
 		date_filter = "";
 	else
-		date_filter = (
-			" AND date BETWEEN DATE('" + this_month + "') AND DATE('" + 
-			this_month + "','+1 month', '-1 day')"
-		);
+		date_filter = " AND date BETWEEN DATE('" + this_month + "') AND DATE('" + 
+			this_month + "','+1 month', '-1 day')";
 	
-	//return_val_MonthSummary = "ERROR";
 	
 	if (type=="TRANSFERINCOME")
 	{//--this one is a bit different, (searching TRANSFEREXPENSE to baseaccount)
 		db.transaction(function(tx) {
 			tx.executeSql(
-				(
-					"SELECT SUM(amount) as sum_amount FROM incomesexpenses WHERE from_account_id='"+
-					setting.base_account_id + "' AND type='TRANSFEREXPENSE' "+date_filter
-				), [],
+				"SELECT SUM(amount) as sum_amount FROM incomesexpenses WHERE from_account_id='"+
+					baseAccountId + "' AND type='TRANSFEREXPENSE' "+date_filter,
+				[],
 				cbfunction
 			);
 		});
@@ -151,12 +160,11 @@ function getMonthSummary(type, month, scope, specificAccountId, cbfunction){
 	else {
 		db.transaction(function(tx) {
 			tx.executeSql(
-				(
-					"SELECT SUM(amount) as sum_amount FROM incomesexpenses "+
-					"WHERE base_account_id='"+setting.base_account_id +"' "+
+				"SELECT SUM(amount) as sum_amount FROM incomesexpenses "+
+					"WHERE base_account_id='"+baseAccountId +"' "+
 					"AND type='"+type+"' "+ 
-					date_filter + " " + account_filter
-				), [],
+					date_filter + " " + account_filter,
+				[],
 				cbfunction
 			);
 		});

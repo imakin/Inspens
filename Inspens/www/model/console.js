@@ -1,15 +1,19 @@
 function console_run() {
 	var query = $("#console").val();
 	db.transaction(function(tx) {
-		console.log("querying "+query);
 		tx.executeSql(
 			query,[],
-			function(tx,res){
-				console.log("DONE querying "+query);
-				var div_content = ">"
+			function(tx, res){
+				hasileiki = res;
+				var div_content = ""
 				for (i=0;i<res.rows.length;i++) {
-					div_content = div_content + res.rows.item(i).toSource();
-					console.log(res.rows.item(i).toSource());
+					var data = hasileiki.rows.item(i);
+					var keys = Object.keys(data);
+					for (j=0;j<keys.length;j++) {
+						
+						div_content = div_content + res.rows.item(i)[keys[j]]+"<br/>";
+					}
+					div_content = div_content+"<br/>"+"<br/>";
 				}
 				$("#console_result").html(div_content);
 			}
@@ -17,8 +21,5 @@ function console_run() {
 	});
 }
 $(function(){
-	$("#console_run").click(function() {
-		console_run();
-		console.log("perkecuan");
-	});
+	$("#console_run").click(console_run);
 });

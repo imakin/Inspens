@@ -8,5 +8,5 @@ setting = {
 	report_picked_year: c.getFullYear(), 
 	report_picked_month: c.getMonth()+1,
 	
-	base_account_id: 1,
+	base_account_id: 2,
 };

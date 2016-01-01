@@ -1,4 +1,4 @@
-TemplateEngine = function(html, options) {
+TemplateEngine = function(html, options, templatecbfunction) {
 	var re = /<%(.+?)%>/g, 
 		reExp = /(^( )?(var|if|for|else|switch|case|break|{|}|;))(.*)?/g, 
 		code = 'with(obj) { var r=[];\n', 
@@ -17,19 +17,23 @@ TemplateEngine = function(html, options) {
 	code = (code + 'return r.join(""); }').replace(/[\r\t\n]/g, '');
 	try { result = new Function('obj', code).apply(options, [options]); }
 	catch(err) { console.error("'" + err.message + "'", " in \n\nCode:\n", code, "\n"); }
-	return result;
+	templatecbfunction(result);
+	//~ return result;
 }
 
 // Register room in index.html, 
 // store room template at folder room/[name].html, compiled to .js by make all (see Makefile)
-scroll_done = true;
 function refresh(room_template, context) {
-	compiledpage = TemplateEngine(
-		room_template, context
+	TemplateEngine(
+		room_template, context, 
+		function(compiledpage){
+			$("#page").html(compiledpage);
+			refresh_style(); //reload css related styles: style.js
+		}
 	);
-	$("#page").html(compiledpage);
-	refresh_style(); //reload css related styles: style.js
+	
 }
 ctx = {}
+//~ $(function(){refresh(room_home, ctx);});
 $(function(){refresh(room_console, ctx);});
 	
