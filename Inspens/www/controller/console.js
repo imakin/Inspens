@@ -11,7 +11,7 @@ function console_run() {
 					var keys = Object.keys(data);
 					for (j=0;j<keys.length;j++) {
 						
-						div_content = div_content + res.rows.item(i)[keys[j]]+"<br/>";
+						div_content = div_content + res.rows.item(i)[keys[j]]+", ";
 					}
 					div_content = div_content+"<br/>"+"<br/>";
 				}

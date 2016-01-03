@@ -34,6 +34,9 @@ function refresh(room_template, context) {
 	
 }
 ctx = {}
-//~ $(function(){refresh(room_home, ctx);});
-$(function(){refresh(room_console, ctx);});
+$(function(){
+	refresh(room_home, ctx);
+	home_ctl.initialize();
+});
+//~ $(function(){refresh(room_console, ctx);});
 	

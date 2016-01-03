@@ -1,4 +1,4 @@
-.page {
+#somethingelse {
   background: white;
   box-sizing: border-box;
   width: 100%;
@@ -15,8 +15,11 @@
 .righter, .right {
   text-align: right; }
 
-.full {
+div.full {
   display: block; }
+
+button.full {
+  width: 99%; }
 
 .half {
   display: inline-block;
@@ -53,3 +56,25 @@
   #page-container > div {
     font-size: 10pt;
     display: inline-block; }
+
+.space-vertical-2 {
+  display: block;
+  height: 10pt;
+  /* it is defined in style.js, data-space= attribute is used */ }
+
+button {
+  padding: 0.4em 0.6em;
+  border: solid 2px #e0e0e0;
+  background-color: #efefef;
+  border-radius: 0.5em; }
+
+/** room home **/
+.main {
+  max-width: 480px;
+  margin: 0px auto; }
+
+.dot {
+  position: absolute;
+  background: black;
+  width: 5px;
+  height: 5px; }

@@ -1,5 +1,5 @@
 $fontsizedefault: 10pt;
-.page{
+#somethingelse{
 	background:white;
 	box-sizing: border-box; // like old internet explorer sizing
 	width:100%;
@@ -16,8 +16,11 @@ $fontsizedefault: 10pt;
 .righter, .right{
 	text-align:right;
 }
-.full{
+div.full{
 	display:block;
+}
+button.full{
+	width:99%;
 }
 .half{
 	display:inline-block;
@@ -61,4 +64,27 @@ $fontsizedefault: 10pt;
 	}
 	#page-right{
 	}
+}
+.space-vertical-2{
+	display:block;
+	height:#{$fontsizedefault*1}; /* it is defined in style.js, data-space= attribute is used */
+}
+
+button{
+	padding:0.4em 0.6em;
+	border:solid 2px #e0e0e0;
+	background-color:#efefef;
+	border-radius:0.5em;
+}
+
+/** room home **/
+.main{
+	max-width:480px;
+	margin:0px auto;
+}
+.dot{
+	position:absolute;
+	background:black;
+	width:5px;
+	height:5px;
 }

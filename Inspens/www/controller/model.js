@@ -1,93 +1,15 @@
-ctx = {
-		setting: setting, //-- global var setting in core.js
-		summary: {
-			last_period_balance: 0,
-			total_income: 0,
-			total_expense: 200000,
-			total_transfer_income: 500000,
-			total_transfer_expense: 0
-		},
-		base: {
-			number: 1,
-			total: 6,
-			name: "Cash in Hand"
-		},
+//-- init default setting
+var c = new Date();
+setting = {
+	period_change: 1, //-- date of period change, alias close_book_date
+	close_book_date: 1,
+	currency: "IDR",
+	
+	report_picked_year: c.getFullYear(), 
+	report_picked_month: c.getMonth()+1,
+	
+	base_account_id: 2,
 };
-
-function scroll(room_template, context, direction, speed) {
-	var leftto;
-	var targetdiv;
-	if (speed>700)
-		speed = 700
-	if (direction=="right") {
-		leftto = -2*winW;
-		targetdiv = "#page-right";
-	}
-	else {
-		leftto = 0;
-		targetdiv = "#page-left"
-	}
-	not_currently_scrolling = false;
-	TemplateEngine(
-		room_template,
-		context,
-		function(compiledpage){
-			$(targetdiv).html(compiledpage);
-			refresh_style(); //reload css related styles			
-			$("#page-container").animate(
-				{left:leftto},
-				{
-					duration: speed,
-					complete: function(){
-						$("#page").html(compiledpage);
-						not_currently_scrolling = true;
-					}
-				}
-			);
-		}
-	);
-}
-$(function() {
-	not_currently_scrolling = true;
-	$(window).on(
-		"swipe",
-		function (e) {
-			if (not_currently_scrolling)
-			{
-				if ((e.swipestart.coords[0]-e.swipestop.coords[0])>30
-					&& ctx.base.number<6
-				){
-					ctx.base.number += 1;
-					scroll(room_home, ctx, "right", (e.swipestop.time - e.swipestart.time)*2);
-				} 
-				else if ((e.swipestart.coords[0]-e.swipestop.coords[0])<-30
-					&& ctx.base.number>1
-				){
-					ctx.base.number -= 1;
-					scroll(room_home, ctx, "left", (e.swipestop.time - e.swipestart.time)*2);
-				}
-				getMonthSummary("EXPENSE", 0, "BETWEEN", -1, ctx.base.number,
-					function(tx, res){
-						penghasilan = res;
-						if (res.rows.length<1) {
-							ctx.summary.total_expense = 0.0;
-							refresh(room_home, ctx);
-						}
-						else {
-							ctx.summary.total_expense = parseFloat(res.rows.item(0).sum_amount);
-							refresh(room_home, ctx);
-						}
-						console.log(
-							"MAKINLOG: "+
-							res.rows.length+" len, item"+ 
-							res.rows.item(0).sum_amount
-						);
-					}
-				);
-			}
-		}
-	);
-});
 function zeroFill( number, width )
 {
 	width -= number.toString().length;
@@ -97,6 +19,7 @@ function zeroFill( number, width )
 	}
 	return number + ""; // always return a string
 }
+
 function getMonthSummary(type, month, scope, specificAccountId, baseAccountId, cbfunction){
 	//-- type: 'INCOME', 'EXPENSE', 'TRANSFERINCOME', 'TRANSFEREXPENSE'
 	//-- month is month number 1=jan, 2=feb, 3=mar
