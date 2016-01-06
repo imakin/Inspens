@@ -26,6 +26,9 @@ button.full{
 	display:inline-block;
 	width:49.5%;
 }
+div.inline{
+	display:inline-block;
+}
 .grid-container{
 	font-size:0px;
 	.dummy{clear:both;}
@@ -57,6 +60,7 @@ button.full{
 	&>div{
 		font-size:$fontsizedefault;
 		display:inline-block;
+		vertical-align:top;
 	}
 	#page{
 	}
@@ -88,3 +92,35 @@ button{
 	width:5px;
 	height:5px;
 }
+#room_list_container{
+	display:none;
+	position:absolute;
+	right:0px;
+	top:3.5em;
+	width:100%;
+	padding:0.1em 0em;
+	z-index:2;
+	background:#efefef;
+	.dummy{top:0px;}
+/*
+	#room_list{
+		text-align:center;
+	}
+*/
+	button{
+		display:block;
+		width:20em;
+		margin:0px auto;
+		padding-top:1em;
+		padding-bottom:1em;
+		margin-bottom:1px;
+	}
+}
+.button_small{
+	font-weight:normal;
+	padding:3px;
+	background-color:white;
+	border:solid 1px #efefef;
+	font-size:0.8em;
+}
+.ui-slider-switch { width: 17em!important; }

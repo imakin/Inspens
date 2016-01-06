@@ -18,5 +18,6 @@ function refresh_style(){
 		}
 	);
 }
-
-$(refresh_style);
+//~ $(function(){
+//~ }
+//~ );

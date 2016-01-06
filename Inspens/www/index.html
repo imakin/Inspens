@@ -53,20 +53,26 @@
         <!-- Register rooms first right here -->
         <script type="text/javascript" src="views/home.js"></script>
         <script type="text/javascript" src="views/console.js"></script>
+        <script type="text/javascript" src="views/room_list.js"></script>
+        <script type="text/javascript" src="views/add_expense.js"></script>
         <!-- end of rooms -->
         
         <script type="text/javascript" src="js/template.js"></script> <!-- room handling -->
         
-        <!-- controller js goes here -->
         <script type="text/javascript" src="controller/model.js"></script> <!-- core model -->
+        <!-- controller js goes here -->
         <script type="text/javascript" src="controller/home.js"></script>
         <script type="text/javascript" src="controller/console.js"></script>
+        <script type="text/javascript" src="controller/add_expense.js"></script>
         
     </head>
     <body>
-		<div id="dot1" class="dot"></div>
-		<div id="dot2" class="dot"></div>
-        <div id="title">hai</div>
+        <div class="righter">
+			<button id="menu" class="button_small">menu</button>
+			<div id="room_list_container">
+				
+			</div>
+        </div>
         <div id="page-container">
 			<div id="page-left"></div>
 			<div id="page">

@@ -34,7 +34,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        
+        refresh_style()
         try {
 			db = window.sqlitePlugin.openDatabase({name: "Inspens.db"});
 		}
