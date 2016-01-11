@@ -97,8 +97,14 @@ function getMonthSummary(type, month, scope, specificAccountId, baseAccountId, c
 
 model = {
 	accounts: {
-		sql: "SELECT * FROM accounts WHERE enabled=1 ",
+		name: 'accounts',
+		fields: ['id', 'name', 'type', 'enabled'],
+		sql: "SELECT * FROM "+this.name+" WHERE enabled=1 ",
 		//all_disabled://not needed
+		/**
+		 * all executed callback is cbfunction(tx,res) and cb2(void)
+		 * passed to function
+		 */
 		all: 
 			function(cbfunction,cb2){
 				//-- get all, when done cbfunction(tx,res) will be called,
@@ -124,5 +130,61 @@ model = {
 					);
 				});
 			},
+		replace:
+			function(data, cbfunction, cb2){
+				for (field in model.accounts.fields) {
+				//-- manually fill non specified data to current data. (SQLITE can't update, only replace)
+					if (!data[field])
+						data[field] = "(SELECT "+field+" FROM "+model.accounts.name+
+									" WHERE id="+data.id+")";	
+				}
+				db.transaction(function(tx){
+					tx.executeSql(
+						"INSERT OR REPLACE INTO "+model.accounts.name+
+						" (id,name,type,enabled) VALUES("+
+							data.id+", "+
+							"'"+data.name+"', "+
+							"'"+data.type+"', "+
+							"1)",
+						[],
+						function(tx,res){
+							cbfunction(tx,res);
+							cb2();
+						}
+					);
+				});
+			},
+		insert:
+			function(data, cbfunction, cb2){
+			//--replace. executed
+				db.transaction(function(tx){
+					tx.executeSql(
+						"INSERT INTO "+model.accounts.name+
+						" (id,name,type,enabled) VALUES("+
+							"((SELECT id FROM "+model.accounts.name+" ORDER BY id DESC LIMIT 1)+1), "+
+							"'"+data.name+"', "+
+							"'"+data.type+"', "+
+							"1)",
+						[],
+						function(tx,res){
+							cbfunction(tx,res);
+							cb2();
+						}
+					);
+				});
+			},
+		disable:
+			function(id, cbfunction, cb2){
+				db.transaction(function(tx){
+					tx.executeSql("UPDATE "+model.accounts.name+" set enabled=0"+
+						" WHERE id="+id,
+						[],
+						function(tx,res){
+							cbfunction(tx,res);
+							cb2();
+						}
+					);
+				});
+			}
 	},
 }
