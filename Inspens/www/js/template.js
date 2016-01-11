@@ -1,4 +1,5 @@
 TemplateEngine = function(html, options, templatecbfunction) {
+	//-- upon finished, templatecbfunction(result) will be called
 	var re = /<%(.+?)%>/g, 
 		reExp = /(^( )?(var|if|for|else|switch|case|break|{|}|;))(.*)?/g, 
 		code = 'with(obj) { var r=[];\n', 
@@ -33,21 +34,5 @@ function refresh(room_template, context) {
 	);
 	
 }
+//--init called in index.js
 ctx = {}
-$(function(){
-	home_ctl.initialize();
-	TemplateEngine(
-		room_room_list, {}, 
-		function(cp) {
-			$("#room_list_container").html(cp);
-			refresh_style();
-		}
-	);
-	
-	$("body").on("click", "#bt_goto_home", function() { home_ctl.initialize(); $("#room_list_container").toggle() });
-	$("body").on("click", "#bt_goto_console", function() {console_ctl.initialize(); $("#room_list_container").toggle()});
-	$("body").on("click", "#bt_goto_add_expense", function() {add_expense_ctl.initialize(); $("#room_list_container").toggle()});
-	$("body").on("click", "#menu", function(){$("#room_list_container").toggle();});
-});
-//~ $(function(){refresh(room_console, ctx);});
-	

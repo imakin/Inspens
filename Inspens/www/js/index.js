@@ -34,7 +34,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        refresh_style()
+        
         try {
 			db = window.sqlitePlugin.openDatabase({name: "Inspens.db"});
 		}
@@ -48,21 +48,20 @@ var app = {
 						function(tx, res){
 							if (res.rows.length<1) {
 								//-- no table yet, let's create all of them
-								tx.executeSql("CREATE TABLE IF NOT EXISTS accounts(id INT, name VARCHAR, type VARCHAR, balance INT, enabled BOOLEAN)"); //-- Main accounts
-								tx.executeSql("CREATE TABLE IF NOT EXISTS account_balances(id INT, base_account_id INT, balance_before INT, balance INT, date DATE)");
-								tx.executeSql("CREATE TABLE IF NOT EXISTS incomesexpenses(id INT, base_account_id INT, from_account_id INT, description VARCHAR, type VARCHAR, amount INT, date DATE)");
-								tx.executeSql("CREATE TABLE IF NOT EXISTS settings(name VARCHAR, value VARCHAR)");
+								tx.executeSql("CREATE TABLE IF NOT EXISTS accounts(id INT UNIQUE ON CONFLICT REPLACE, name VARCHAR, type VARCHAR, enabled BOOLEAN)"); //-- Main accounts
+								tx.executeSql("CREATE TABLE IF NOT EXISTS incomesexpenses(id INT UNIQUE ON CONFLICT REPLACE, base_account_id INT, from_account_id INT, description VARCHAR, type VARCHAR, amount INT, date DATE)");
+								tx.executeSql("CREATE TABLE IF NOT EXISTS settings(name VARCHAR UNIQUE ON CONFLICT REPLACE, value VARCHAR)");
 
-								tx.executeSql("INSERT INTO accounts VALUES(1, 'Cash in Hand', 'BASE', 0, 1)");
-								tx.executeSql("INSERT INTO accounts VALUES(2, 'Bank', 'BASE', 0 ,1)");
-								tx.executeSql("INSERT INTO accounts VALUES(8, 'e-Money', 'BASE', 0 ,1)");
+								tx.executeSql("INSERT INTO accounts VALUES(1, 'Cash in Hand', 'BASE', 1)");
+								tx.executeSql("INSERT INTO accounts VALUES(2, 'Bank', 'BASE', 1)");
+								tx.executeSql("INSERT INTO accounts VALUES(8, 'e-Money', 'BASE', 1)");
 
 								//-- basic accounts
-								tx.executeSql("INSERT INTO accounts VALUES(3, 'Main Income',      'INCOME',   0, 1)");
-								tx.executeSql("INSERT INTO accounts VALUES(4, 'Job Salary',       'INCOME',   0, 1)");
-								tx.executeSql("INSERT INTO accounts VALUES(5, 'Remaining Cash',   'INCOME',   0, 1)"); //-- remaining cash in hand
-								tx.executeSql("INSERT INTO accounts VALUES(6, 'Eating',           'EXPENSE',  0, 1)");
-								tx.executeSql("INSERT INTO accounts VALUES(7, 'Transportation',   'EXPENSE',  0, 1)");
+								tx.executeSql("INSERT INTO accounts VALUES(3, 'Main Income',      'INCOME',   1)");
+								tx.executeSql("INSERT INTO accounts VALUES(4, 'Job Salary',       'INCOME',   1)");
+								tx.executeSql("INSERT INTO accounts VALUES(5, 'Remaining Cash',   'INCOME',   1)"); //-- remaining cash in hand
+								tx.executeSql("INSERT INTO accounts VALUES(6, 'Eating',           'EXPENSE',  1)");
+								tx.executeSql("INSERT INTO accounts VALUES(7, 'Transportation',   'EXPENSE',  1)");
 
 								tx.executeSql("INSERT INTO settings VALUES('base_account', 1)");
 								tx.executeSql("INSERT INTO settings VALUES('base_account_page','0')");
@@ -74,6 +73,9 @@ var app = {
 					);
 				}
 		);
+		home_ctl.initialize();
+		room_list_ctl.initialize();
+        account_list_ctl.initialize();
 		/**var db = window.sqlitePlugin.openDatabase({name: "Inspens.db"});
 		db.transaction(function(tx) {
 			tx.executeSql('DROP TABLE IF EXISTS test_table');

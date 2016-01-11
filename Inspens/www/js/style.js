@@ -10,6 +10,8 @@ function refresh_style(){
 	$("#page-container >div").css("padding-left", winW/100*5);
 	$("#page-container >div").css("padding-right", winW/100*5);
 	
+	$(".popup").each(function(){$(this).css("left", (winW-$(this).width())/2)});
+	
 	$(".space-vertical").each(function(){
 			$(this).css(
 				"height",

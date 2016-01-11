@@ -40,6 +40,7 @@
         
         <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
         <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+        <script type="text/javascript" src="js/jquery-ui.js"></script>
         
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
@@ -47,6 +48,7 @@
         <!-- styling -->
         <link rel="stylesheet" href="css/inspens.css" />
         <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css"/>
+        <link rel="stylesheet" href="css/jquery-ui.min.css"/>
         <script type="text/javascript" src="js/style.js"></script>
         
         
@@ -55,16 +57,21 @@
         <script type="text/javascript" src="views/console.js"></script>
         <script type="text/javascript" src="views/room_list.js"></script>
         <script type="text/javascript" src="views/add_expense.js"></script>
+        <script type="text/javascript" src="views/account_list.js"></script>
         <!-- end of rooms -->
         
         <script type="text/javascript" src="js/template.js"></script> <!-- room handling -->
         
         <script type="text/javascript" src="controller/model.js"></script> <!-- core model -->
         <!-- controller js goes here -->
+        <script type="text/javascript" src="controller/room_list.js"></script>
         <script type="text/javascript" src="controller/home.js"></script>
         <script type="text/javascript" src="controller/console.js"></script>
         <script type="text/javascript" src="controller/add_expense.js"></script>
+        <script type="text/javascript" src="controller/account_list.js"></script>
         
+        
+        <script type="text/javascript" src="js/firebase.js"></script>
     </head>
     <body>
         <div class="righter">
@@ -79,6 +86,10 @@
 				<!-- main container -->
 			</div>
 			<div id="page-right"></div>
+        </div>
+        <div class="popup_container">
+			<div id="account_list" class="popup">
+			</div>
         </div>
     </body>
 </html>

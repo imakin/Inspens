@@ -11,12 +11,12 @@ console_ctl = {
 		function(){
 			try {ctx.active_room_close();} catch (err) {}
 			refresh(room_console, ctx);
-			$("body").on("click", "#console_run", console_ctl.console_run);
+			$("body").on("click", "#bt_console_run", console_ctl.console_run);
 			ctx.active_room_close = console_ctl.close
 		},
 	close:
 		function(){
-			$("body").off("click", "#console_run", console_ctl.console_run);
+			$("body").off("click", "#bt_console_run", console_ctl.console_run);
 		},
 	console_run:
 		function(){

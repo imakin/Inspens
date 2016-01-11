@@ -22,16 +22,20 @@ home_ctl = {
 							total: 6,
 							name: "Cash in Hand"
 						};
-				
-				refresh(room_home, ctx);
+				home_ctl.ctx_reload(function(){
+					refresh(room_home, ctx);
+				});
 				home_ctl.not_currently_scrolling = true;
 				$(window).on("swipe",home_ctl.on_swipe_handler);
+				
+				$("body").on("click", "#bt_home_add_income", room_list_ctl.goto_add_income);
+				$("body").on("click", "#bt_home_add_expense", room_list_ctl.goto_add_expense);
+				$("body").on("click", "#bt_home_edit_accounts", room_list_ctl.goto_edit_accounts);
 			},
 	close:
 			function(){
 				$(window).off("swipe",home_ctl.on_swipe_handler);
 			},
-
 	not_currently_scrolling: true,
 	on_swipe_handler: 
 			function (e) {

@@ -1,3 +1,4 @@
+/**-- MAKIN 2015-2016 **/
 #somethingelse {
   background: white;
   box-sizing: border-box;
@@ -18,7 +19,7 @@
 div.full {
   display: block; }
 
-button.full {
+button.full, input.full {
   width: 99%; }
 
 .half {
@@ -53,7 +54,9 @@ div.inline {
   display: block;
   width: 300%;
   position: absolute;
-  font-size: 0px; }
+  font-size: 0px;
+  height: 80%;
+  overflow-y: scroll; }
   #page-container .dummy {
     clear: both; }
   #page-container > div {
@@ -68,9 +71,13 @@ div.inline {
 
 button {
   padding: 0.4em 0.6em;
-  border: solid 2px #e0e0e0;
+  border: solid 1px #bbbbbb;
   background-color: #efefef;
-  border-radius: 0.5em; }
+  border-radius: 0.1em; }
+
+button:active {
+  border: solid 1px #bbbbbb;
+  background-color: #DEDEDE; }
 
 /** room home **/
 .main {
@@ -116,3 +123,93 @@ button {
 
 .ui-slider-switch {
   width: 17em !important; }
+
+.w1 {
+  width: 10%; }
+
+.w2 {
+  width: 20%; }
+
+.w3 {
+  width: 30%; }
+
+.w4 {
+  width: 40%; }
+
+.w5 {
+  width: 50%; }
+
+.w6 {
+  width: 60%; }
+
+.w7 {
+  width: 70%; }
+
+.w8 {
+  width: 80%; }
+
+.w9 {
+  width: 90%; }
+
+.fr {
+  padding-bottom: 0.8em; }
+  .fr > .main {
+    padding-bottom: 4.5em; }
+  .fr input {
+    width: 99%;
+    font-size: 2em;
+    height: 1.5em;
+    text-align: center;
+    border: solid 1px #C4C4C4;
+    border-radius: 0px; }
+  .fr button.getpopup {
+    width: 99% !important;
+    font-size: 1.5em !important;
+    height: 2em !important;
+    text-align: center !important;
+    border: solid 1px #C4C4C4 !important;
+    border-radius: 0px !important;
+    background: white !important;
+    font-weight: normal !important; }
+  .fr button {
+    font-size: 1.3em;
+    min-width: 100px;
+    font-weight: normal; }
+    .fr button > .notfull {
+      width: 40%; }
+    .fr button > .full {
+      width: 90%; }
+    .fr button > .half {
+      width: 50%; }
+  .fr label {
+    margin: -0.4em 0px 0.4em 0px !important;
+    font-size: 10pt !important; }
+  .fr div.full {
+    margin-top: 0.8em; }
+
+/*
+input.fr {
+	width:99%;
+}
+*/
+.popup_container {
+  display: none;
+  z-index: 3;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3); }
+  .popup_container .popup {
+    display: none;
+    position: absolute;
+    width: 90%;
+    max-width: 480px;
+    top: 5%;
+    left: 5%;
+    background: #ffffff;
+    box-shadow: 0px 1px 70px rgba(0, 0, 0, 0.5), inset 0px 0px 70px white; }
+
+.ui-datepicker {
+  font-size: 1.1em !important; }

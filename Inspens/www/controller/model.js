@@ -94,3 +94,35 @@ function getMonthSummary(type, month, scope, specificAccountId, baseAccountId, c
 	}
 	//return return_val_MonthSummary;
 }
+
+model = {
+	accounts: {
+		sql: "SELECT * FROM accounts WHERE enabled=1 ",
+		//all_disabled://not needed
+		all: 
+			function(cbfunction,cb2){
+				//-- get all, when done cbfunction(tx,res) will be called,
+				//-- and cb2(void) will be called also if any
+				db.transaction(function(tx){
+					tx.executeSql(model.accounts.sql, [], 
+						function(tx,res){
+							cbfunction(tx,res);
+							cb2();
+						}
+					);
+				});
+			},
+		filter:
+			function(filter_string, cbfunction, cb2){
+				//-- e.g. filter_string "type='EXPENSE'"
+				db.transaction(function(tx){
+					tx.executeSql(model.accounts.sql+" AND "+filter_string, [], 
+						function(tx,res){
+							cbfunction(tx,res);
+							cb2();
+						}
+					);
+				});
+			},
+	},
+}

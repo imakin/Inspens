@@ -1,4 +1,7 @@
+/**-- MAKIN 2015-2016 **/
+
 $fontsizedefault: 10pt;
+$pagemaxwidth: 480px;
 #somethingelse{
 	background:white;
 	box-sizing: border-box; // like old internet explorer sizing
@@ -19,7 +22,7 @@ $fontsizedefault: 10pt;
 div.full{
 	display:block;
 }
-button.full{
+button.full, input.full{
 	width:99%;
 }
 .half{
@@ -56,6 +59,8 @@ div.inline{
 	width:300%;
 	position:absolute;
 	font-size:0px;
+	height:80%;
+	overflow-y:scroll;
 	.dummy{clear:both;}
 	&>div{
 		font-size:$fontsizedefault;
@@ -76,14 +81,18 @@ div.inline{
 
 button{
 	padding:0.4em 0.6em;
-	border:solid 2px #e0e0e0;
+	border:solid 1px #bbbbbb;
 	background-color:#efefef;
-	border-radius:0.5em;
+	border-radius:0.1em;
+}
+button:active{
+	border:solid 1px #bbbbbb;
+	background-color:#DEDEDE;
 }
 
 /** room home **/
 .main{
-	max-width:480px;
+	max-width:$pagemaxwidth;
 	margin:0px auto;
 }
 .dot{
@@ -124,3 +133,91 @@ button{
 	font-size:0.8em;
 }
 .ui-slider-switch { width: 17em!important; }
+
+@for $i from 1 through 9 {
+	.w#{$i} {
+		width: #{$i*10%};
+	}
+}
+.fr {
+	padding-bottom:0.8em;
+	.dummy{}
+	&>.main{
+		padding-bottom:4.5em;
+	}
+	input{
+		width:99%;
+		font-size:2em;
+		height:1.5em;
+		text-align:center;
+		border:solid 1px #C4C4C4;
+		border-radius:0px;
+	}
+	button.getpopup{
+		width:99% !important;
+		font-size:1.5em !important;
+		height:2em !important;
+		text-align:center !important;
+		border:solid 1px #C4C4C4 !important;
+		border-radius:0px !important;
+		background:white!important;
+		font-weight:normal!important;
+	}
+	button{
+		font-size:1.3em;
+		min-width:100px;
+		font-weight:normal;
+		.dummy{}
+		&>.notfull{
+			width:40%;
+		}
+		&>.full{
+			width:90%;
+		}
+		&>.half{
+			width:50%;
+		}
+	}
+	label{
+		margin:-0.4em 0px 0.4em 0px !important;
+		font-size:$fontsizedefault!important;
+	}
+	div.full{
+		margin-top:0.8em;
+	}
+}
+/*
+input.fr {
+	width:99%;
+}
+*/
+#account_list{
+}
+.popup_container{
+	display:none;
+	z-index:3;
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	background:rgba(0,0,0,0.3);
+
+	.dummy{}
+	.popup{
+		display:none;
+		position:absolute;
+		width:90%;
+		max-width:$pagemaxwidth;
+		top:5%;
+		left:5%;
+		background:#ffffff;
+		box-shadow:
+			0px 1px 70px rgba(000,000,000,0.5),
+			inset 0px 0px 70px rgba(255,255,255,1);
+
+	}
+}
+.ui-datepicker{
+	font-size:1.1em!important;
+}

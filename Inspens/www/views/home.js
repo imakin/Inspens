@@ -80,10 +80,10 @@ room_home = ""+
 "	"+
 "	<div class=\"full grid-container\">"+
 "		<div class=\"left half\">"+
-"			<button>Add Income</button>"+
+"			<button id=\"bt_home_add_income\">Add Income</button>"+
 "		</div>"+
 "		<div class=\"right half\">"+
-"			<button>Add Expense</button>"+
+"			<button id=\"bt_home_add_expense\">Add Expense</button>"+
 "		</div>"+
 "	</div>"+
 "	"+
@@ -91,7 +91,7 @@ room_home = ""+
 "	"+
 "	<div class=\"full grid-container\">"+
 "		<div class=\"full center\">"+
-"			<button class=\"full\" style=\"max-width:240px;\">Edit Accounts</button>"+
+"			<button id=\"bt_home_edit_accounts\" class=\"full\" style=\"max-width:240px;\">Edit Accounts</button>"+
 "		</div>"+
 "	</div>"+
 "</section>";

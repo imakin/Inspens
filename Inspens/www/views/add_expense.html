@@ -6,22 +6,34 @@
 		|||
 	</div>
 </header>
-<section class="main">
+<section class="main fr">
 	<div class="left full">
 		Expense for: { <%this.base.number%>. <%this.base.name%> }
 	</div>
 	<div class="center full">
-		<select name="sl_expense_type" id="sl_expense_type" data-role="slider" class="ui-slider-label ui-slider-label-a ui-btn-active">
+		<select name="sl_add_expense_type" id="sl_add_expense_type" data-role="slider" class="ui-slider-label ui-slider-label-a ui-btn-active">
 			<option value="normal">Normal Expense</option>
 			<option value="transfer">Transfer Expense</option>
 		</select> 
 	</div>
-	<div class="center full">
-		<label for="ip_expense_amount">Amount</label>
-		<input class="center full" id="ip_expense_amount" name="ip_expense_amount"/>
+	<div class="left full">
+		<label for="ip_add_expense_amount">Amount</label>
+		<input id="ip_add_expense_amount" name="ip_add_expense_amount" type="number" class="center full" />
+	</div>
+	<div class="left full">
+		<label for="ip_add_expense_account">Account</label>
+		<button id="ip_add_expense_account" name="ip_add_expense_account" class="center full getpopup" >-</button>
+	</div>
+	<div class="left full">
+		<label for="ip_add_expense_date">Date</label>
+        <input id="ip_add_expense_date_" style="" type="hidden" />
+		<button id="ip_add_expense_date" name="ip_add_expense_date" class="center full getpopup"  >-</button>
+	</div>
+	<div class="left full">
+		<label for="ip_add_expense_description">Description</label>
+		<input id="ip_add_expense_description" name="ip_add_expense_description" class="left full" />
 	</div>
 	<div class="center full">
-		<label for="ip_expense_account">Account</label>
-		<button class="center full" id="ip_expense_account" name="ip_expense_account">-</button>
+		<button id="bt_add_expense_save" class="notfull" >save</button>
 	</div>
 </section>
