@@ -157,14 +157,14 @@ button:active {
     padding-bottom: 4.5em; }
   .fr input {
     width: 99%;
-    font-size: 2em;
+    font-size: 1.3em;
     height: 1.5em;
     text-align: center;
     border: solid 1px #C4C4C4;
     border-radius: 0px; }
   .fr button.getpopup {
     width: 99% !important;
-    font-size: 1.5em !important;
+    font-size: 1.2em !important;
     height: 2em !important;
     text-align: center !important;
     border: solid 1px #C4C4C4 !important;

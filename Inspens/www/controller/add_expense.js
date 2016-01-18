@@ -9,42 +9,91 @@ add_expense_ctl = {
 			try {ctx.active_room_close();} catch (err) {}
 			refresh(room_add_expense, ctx);
 			ctx.active_room_close = add_expense_ctl.close;
+			ctx.room_back = home_ctl.initialize;
 			
 			var endorsement_controls =  $('#page select');
 			endorsement_controls.each(function(){
-				// the next two lines make them flip toggles
 				$(this).slider();
 				$(this).slider('refresh');
 			});
 			
+			$("body").off("click", "#ip_add_expense_account");
 			$("body").on("click", "#ip_add_expense_account", add_expense_ctl.pick_account);
-			$("#ip_add_expense_date_").datepicker(
-				{  
-					dateFormat: "yy-mm-dd",
+			
+			this.datepickeri= new Pikaday(
+				{
+					field: document.getElementById('ip_add_expense_date_'),
 				}
 			);
-			$("#ip_add_expense_date").click(function(){
-				$("#ip_add_expense_date_").datepicker("show");
-			});
-			$("#ip_add_expense_date_").change(function(){
-				$("#ip_add_expense_date").html($(this).val());
-			});
+			$("#ip_add_expense_date").off("click");
+			$("#ip_add_expense_date").click(
+				function(){
+					add_expense_ctl.datepickeri.show();
+				}
+			);
+			$("#ip_add_expense_date_").off("change");
+			$("#ip_add_expense_date_").change(
+				function(){
+					$("#ip_add_expense_date").html($(this).val());
+				}
+			);
+			$("#bt_add_expense_save").off("click");
+			$("#bt_add_expense_save").click(
+				function(){
+					add_expense_ctl.save();
+				}
+			);
 		},
 	close:
 		function(){
 			$("body").off("click", "#ip_add_expense_account", add_expense_ctl.pick_account);
 		},
 	data: {
-		amount:0,
 		from_account_id:0,
-		date:"",
-		description:"",
 	},
+	getval: 
+		function(prop){
+			return prop=="account"?
+					add_expense_ctl.data.from_account_id:(
+						$("#ip_add_expense_"+prop).val()==""?
+							$("#ip_add_expense_"+prop).text():
+							$("#ip_add_expense_"+prop).val()
+					);
+		},
+	save:
+		function() {
+			var data = {
+						amount : this.getval("amount"),
+						base_account_id : this.getval("account"),
+						from_account_id : this.getval("account"),
+						date : this.getval("date"),
+						description : this.getval("description"),
+						type : this.getval("type"),
+				};
+			if (data.type=="normal") {
+				data.type = "EXPENSE";
+				data.base_account_id = ctx.base.number;
+			}
+			else {//--transfer expense
+				data.type = "TRANSFEREXPENSE";
+				data.from_account_id = ctx.base.number;
+			}
+			model.incomesexpenses.insert(
+							data,function(tx,res){}, 
+							function(){ctx.room_back();}
+						);
+		},
 	pick_account:
 		function(){
-			account_list_ctl.account_ctx.message = "Select expense account"
+			var type = add_expense_ctl.getval("type");
+			var actype;
+			if (type=="normal")
+				actype = "EXPENSE";
+			else
+				actype = "BASE"
+			account_list_ctl.account_ctx.message = "Select "+actype+" account";
 			account_list_ctl.show_filter(
-				" type='EXPENSE' ",
+				" type='"+actype+"' ",
 				function(){
 					$("#account_list button").each(function(){
 						$(this).off("click");

@@ -99,10 +99,10 @@ model = {
 	accounts: {
 		name: 'accounts',
 		fields: ['id', 'name', 'type', 'enabled'],
-		sql: "SELECT * FROM "+this.name+" WHERE enabled=1 ",
+		sql: "SELECT * FROM accounts WHERE enabled=1 ",
 		//all_disabled://not needed
 		/**
-		 * all executed callback is cbfunction(tx,res) and cb2(void)
+		 * all executed callback params are cbfunction(tx,res) and cb2(void)
 		 * passed to function
 		 */
 		all: 
@@ -130,10 +130,10 @@ model = {
 					);
 				});
 			},
-		replace:
+		replace: //-- index is id field
 			function(data, cbfunction, cb2){
 				for (field in model.accounts.fields) {
-				//-- manually fill non specified data to current data. (SQLITE can't update, only replace)
+					//-- manually fill non specified data to current data. (SQLITE can't update, only replace)
 					if (!data[field])
 						data[field] = "(SELECT "+field+" FROM "+model.accounts.name+
 									" WHERE id="+data.id+")";	
@@ -156,7 +156,7 @@ model = {
 			},
 		insert:
 			function(data, cbfunction, cb2){
-			//--replace. executed
+				//--replace. executed
 				db.transaction(function(tx){
 					tx.executeSql(
 						"INSERT INTO "+model.accounts.name+
@@ -187,4 +187,90 @@ model = {
 				});
 			}
 	},
+	incomesexpenses: {
+		name: 'incomesexpenses',
+		fields: ['id', 'base_account_id', 'from_account_id', 'description', 'type', 'amount', 'date'],
+		sql: 'select * from incomesexpenses ',
+		
+		/**
+		 * all executed callback params are cbfunction(tx,res) and cb2(void)
+		 * passed to function
+		 */
+		all: 
+			function(cbfunction,cb2){
+				//-- get all, when done cbfunction(tx,res) will be called,
+				//-- and cb2(void) will be called also if any
+				db.transaction(function(tx){
+					tx.executeSql(model.incomesexpenses.sql, [], 
+						function(tx,res){
+							cbfunction(tx,res);
+							cb2();
+						}
+					);
+				});
+			},
+		filter:
+			function(filter_string, cbfunction, cb2){
+				//-- e.g. filter_string "type='EXPENSE'"
+				db.transaction(function(tx){
+					tx.executeSql(model.accounts.sql+" WHERE "+filter_string, [], 
+						function(tx,res){
+							cbfunction(tx,res);
+							cb2();
+						}
+					);
+				});
+			},
+		replace: //-- index is id field
+			function(data, cbfunction, cb2){
+				for (field in model.accounts.fields) {
+					//-- manually fill non specified data to current data. (SQLITE can't update, only replace)
+					if (!data[field])
+						data[field] = "(SELECT "+field+" FROM "+model.incomesexpenses.name+
+									" WHERE id="+data.id+")";	
+				}
+				db.transaction(function(tx){
+					tx.executeSql(
+						"INSERT OR REPLACE INTO "+model.incomesexpenses.name+
+						" (id, base_account_id, from_account_id, description, type, amount, date) VALUES("+
+							"'"+data.id+"', "+
+							"'"+data.base_account_id+"', "+
+							"'"+data.from_account_id+"', "+
+							"'"+data.description+"', "+
+							"'"+data.type+"', "+
+							"'"+data.amount+"', "+
+							"'"+data.date+"')",
+						[],
+						function(tx,res){
+							cbfunction(tx,res);
+							cb2();
+						}
+					);
+				});
+			},
+		insert:
+			function(data, cbfunction, cb2){
+			//--replace. executed
+				db.transaction(function(tx){
+					tx.executeSql(
+						"INSERT INTO "+model.incomesexpenses.name+
+						" (id, base_account_id, from_account_id, description, type, amount, date) VALUES("+
+							"((SELECT id FROM "+model.incomesexpenses.name+" ORDER BY id DESC LIMIT 1)+1), "+
+							"'"+data.base_account_id+"', "+
+							"'"+data.from_account_id+"', "+
+							"'"+data.description+"', "+
+							"'"+data.type+"', "+
+							"'"+data.amount+"', "+
+							"'"+data.date+"')",
+						[],
+						function(tx,res){
+							cbfunction(tx,res);
+							cb2();
+						}
+					);
+				});
+			},
+	},
 }
+
+
