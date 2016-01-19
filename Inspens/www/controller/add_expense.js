@@ -76,7 +76,7 @@ add_expense_ctl = {
 			}
 			else {//--transfer expense
 				data.type = "TRANSFEREXPENSE";
-				data.from_account_id = ctx.base.number;
+				data.base_account_id = ctx.base.number;
 			}
 			model.incomesexpenses.insert(
 							data,function(tx,res){}, 

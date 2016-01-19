@@ -9,7 +9,7 @@ room_home = ""+
 "</header>"+
 "<section class=\"main\">"+
 "	<div class=\"left full\">"+
-"		(<%this.base.number%>/<%this.base.total%>) Base account: <%this.base.name%>"+
+"		(<%this.base.number%>/<%this.base.total%>) Base account: <%this.base.names[this.base.number].name%>"+
 "	</div>"+
 "	"+
 "	<div class=\"mid full\">"+

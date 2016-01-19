@@ -109,7 +109,18 @@ home_ctl = {
 											else {
 												ctx.summary.total_transfer_expense = parseFloat(res.rows.item(0).sum_amount);
 											}
-											done_callback();
+											model.accounts.filter(
+												"type='BASE'",
+												function(tx,res){
+													ctx.base.names = [{id:0, name:'zero'}]
+													for (aci=0; aci<res.rows.length; aci++){
+														ctx.base.names.push({id:res.rows.item(aci).id, name:res.rows.item(aci).name});
+													}
+													ctx.base.total = res.rows.length;
+													done_callback();
+												},
+												function(){}
+											);
 										}
 									);//--transfer expense
 								}
