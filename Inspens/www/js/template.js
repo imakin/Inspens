@@ -32,7 +32,16 @@ function refresh(room_template, context) {
 			refresh_style(); //reload css related styles: style.js
 		}
 	);
-	
+}
+//-- apply to selector 
+function refreshTo(selector, room_template, context) {
+	TemplateEngine(
+		room_template, context, 
+		function(compiledpage){
+			$(selector).html(compiledpage);
+			refresh_style(); //reload css related styles: style.js
+		}
+	);
 }
 //--init called in index.js
 ctx = {}

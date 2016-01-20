@@ -11,11 +11,13 @@ add_expense_ctl = {
 			ctx.active_room_close = add_expense_ctl.close;
 			ctx.room_back = home_ctl.initialize;
 			
-			var endorsement_controls =  $('#page select');
-			endorsement_controls.each(function(){
-				$(this).slider();
-				$(this).slider('refresh');
-			});
+			try{
+				var endorsement_controls =  $('#page select');
+				endorsement_controls.each(function(){
+					$(this).slider();
+					$(this).slider('refresh');
+				});
+			} catch(e) {}
 			
 			$("body").off("click", "#ip_add_expense_account");
 			$("body").on("click", "#ip_add_expense_account", add_expense_ctl.pick_account);

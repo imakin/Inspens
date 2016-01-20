@@ -26,7 +26,7 @@ home_ctl = {
 					refresh(room_home, ctx);
 				});
 				home_ctl.not_currently_scrolling = true;
-				$(window).on("swipe",home_ctl.on_swipe_handler);
+				//~ $(window).on("swipe",home_ctl.on_swipe_handler);
 				
 				$("body").on("click", "#bt_home_add_income", room_list_ctl.goto_add_income);
 				$("body").on("click", "#bt_home_add_expense", room_list_ctl.goto_add_expense);

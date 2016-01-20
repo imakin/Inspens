@@ -2,6 +2,12 @@
 
 $fontsizedefault: 10pt;
 $pagemaxwidth: 480px;
+$bodypadding: 0px;
+.dummy{}
+body{
+	padding:$bodypadding;
+	margin:0px;
+}
 #somethingelse{
 	background:white;
 	box-sizing: border-box; // like old internet explorer sizing
@@ -56,11 +62,13 @@ div.inline{
 #page-container{
 	/*defined in style.js*/
 	display:block;
-	width:300%;
+	/*width:300%;*/
+	width:99%;
 	position:absolute;
 	font-size:0px;
 	height:80%;
-	overflow-y:scroll;
+	overflow-y:auto;
+	overflow-x:auto;
 	.dummy{clear:both;}
 	&>div{
 		font-size:$fontsizedefault;
@@ -80,7 +88,7 @@ div.inline{
 }
 
 button{
-	padding:0.4em 0.6em;
+	padding:0.35em 0.6em;
 	border:solid 1px #bbbbbb;
 	background-color:#efefef;
 	border-radius:0.1em;
@@ -91,9 +99,12 @@ button:active{
 }
 
 /** room home **/
-.main{
-	max-width:$pagemaxwidth;
-	margin:0px auto;
+.scrollright{
+	.dummy{}
+	.main{
+		display:inline-block;
+		margin: 3px 8px 3px 8px;
+	}
 }
 .dot{
 	position:absolute;
@@ -148,7 +159,7 @@ button:active{
 	input{
 		width:99%;
 		font-size:1.3em;
-		height:1.5em;
+		height:2em;
 		text-align:center;
 		border:solid 1px #C4C4C4;
 		border-radius:0px;
@@ -156,7 +167,7 @@ button:active{
 	button.getpopup{
 		width:99% !important;
 		font-size:1.2em !important;
-		height:2em !important;
+		height:2.4em !important;
 		text-align:center !important;
 		border:solid 1px #C4C4C4 !important;
 		border-radius:0px !important;

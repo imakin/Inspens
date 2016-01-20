@@ -4,11 +4,13 @@ function refresh_style(){
 	fontsizedefault = parseFloat($("#page").css("font-size").
 						replace("px","").replace("pt",""));
 	
-	$("#page-container").width(winW*3);
-	$("#page-container").css("left", -winW);
-	$("#page-container >div").width(winW/100*90 - 1);
-	$("#page-container >div").css("padding-left", winW/100*5);
-	$("#page-container >div").css("padding-right", winW/100*5);
+	$("#page-container").width(winW);
+	$("#page-container .scrollright").width(
+		$("#page-container").width()*$(".scrollright .main").length
+	);
+	
+	var  mainmargin = parseInt($(".scrollright .main").css("margin-left"));
+	$(".scrollright .main").width(winW - 2*(mainmargin));
 	
 	$(".popup").each(function(){$(this).css("left", (winW-$(this).width())/2)});
 	
