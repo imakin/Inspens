@@ -1,5 +1,5 @@
 room_home = ""+
-"<div class=\"scrollright\">"+
+"<div class=\"sidescroll\">"+
 "<% /** skip zero, start from 1 **/ %>"+
 "<% for (base_page=1;base_page<this.base.names.length;base_page++) {%>"+
 "	<section class=\"main\">"+

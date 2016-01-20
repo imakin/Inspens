@@ -5,12 +5,12 @@ function refresh_style(){
 						replace("px","").replace("pt",""));
 	
 	$("#page-container").width(winW);
-	$("#page-container .scrollright").width(
-		$("#page-container").width()*$(".scrollright .main").length
+	$("#page-container .sidescroll").width(
+		$("#page-container").width()*$(".sidescroll .main").length
 	);
 	
-	var  mainmargin = parseInt($(".scrollright .main").css("margin-left"));
-	$(".scrollright .main").width(winW - 2*(mainmargin));
+	var  mainmargin = parseInt($(".sidescroll .main").css("margin-left"));
+	$(".sidescroll .main").width(winW - 2*(mainmargin));
 	
 	$(".popup").each(function(){$(this).css("left", (winW-$(this).width())/2)});
 	

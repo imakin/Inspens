@@ -86,7 +86,7 @@ button:active {
   background-color: #DEDEDE; }
 
 /** room home **/
-.scrollright .main {
+.sidescroll .main {
   display: inline-block;
   margin: 3px 8px 3px 8px; }
 

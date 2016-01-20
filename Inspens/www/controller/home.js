@@ -28,15 +28,46 @@ home_ctl = {
 				home_ctl.not_currently_scrolling = true;
 				//~ $(window).on("swipe",home_ctl.on_swipe_handler);
 				
+				$("body").off("click", "#bt_home_add_income", room_list_ctl.goto_add_income);
 				$("body").on("click", "#bt_home_add_income", room_list_ctl.goto_add_income);
+				$("body").off("click", "#bt_home_add_expense", room_list_ctl.goto_add_expense);
 				$("body").on("click", "#bt_home_add_expense", room_list_ctl.goto_add_expense);
+				$("body").off("click", "#bt_home_edit_accounts", room_list_ctl.goto_edit_accounts);
 				$("body").on("click", "#bt_home_edit_accounts", room_list_ctl.goto_edit_accounts);
+				$("#page-container").on("scroll",home_ctl.sidescroll_handler);
+
 			},
 	close:
 			function(){
 				$(window).off("swipe",home_ctl.on_swipe_handler);
 			},
 	not_currently_scrolling: true,
+	sidescroll_once: false,
+	sidescroll_once_val: 0,
+	sidescroll_handler:
+			function() {
+				if (! home_ctl.sidescroll_once)
+				{
+					home_ctl.sidescroll_once_val = $("#page-container").scrollLeft();
+					home_ctl.sidescroll_once = true;
+					//~ console.log("diganti");
+					//~ console.log(home_ctl.sidescroll_once_val);
+				}
+				var sl = $("#page-container").scrollLeft();
+				var edge = $("#page-container").width();
+				if (sl>home_ctl.sidescroll_once_val && home_ctl.sidescroll_once_val<(sl-edge/2)){
+					console.log("sak page");
+					home_ctl.sidescroll_once = false;
+					home_ctl.sidescroll_once_val = $("#page-container").scrollLeft();
+					$("#page-container").scrollLeft((sl+320)-((sl+320)%320));
+				}
+				else if (sl<home_ctl.sidescroll_once_val && home_ctl.sidescroll_once_val>(sl+edge/2)){
+					console.log("sak page kiwe");
+					home_ctl.sidescroll_once = false;
+					home_ctl.sidescroll_once_val = $("#page-container").scrollLeft();
+					$("#page-container").scrollLeft((sl-320)+((sl-320)%320));
+				}
+			},
 	on_swipe_handler: 
 			function (e) {
 				swipee = e;
