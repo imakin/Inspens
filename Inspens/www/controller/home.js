@@ -24,6 +24,12 @@ home_ctl = {
 						};
 				home_ctl.ctx_reload(function(){
 					refresh(room_home, ctx);
+					if (ctx.base.number==1)
+					{
+						$("#page-container .sidescroll").css("margin-left",(-$("#page-container").width())+"px");
+						scrollLeftOverflow("page-container", 0);
+					}
+					
 				});
 				home_ctl.not_currently_scrolling = true;
 				//~ $(window).on("swipe",home_ctl.on_swipe_handler);
@@ -35,7 +41,14 @@ home_ctl = {
 				$("body").off("click", "#bt_home_edit_accounts", room_list_ctl.goto_edit_accounts);
 				$("body").on("click", "#bt_home_edit_accounts", room_list_ctl.goto_edit_accounts);
 				$("#page-container").on("scroll",home_ctl.sidescroll_handler);
-
+				//~ abc = document.getElementById("page-container");
+				//~ abc.scrollLeft = 330;
+				//~ setTimeout(function(){
+						//~ scrollLeftOverflow("page-container", 400);
+					//~ }, 500
+				//~ );
+				
+				
 			},
 	close:
 			function(){
@@ -55,39 +68,150 @@ home_ctl = {
 				}
 				var sl = $("#page-container").scrollLeft();
 				var edge = $("#page-container").width();
-				if (sl>home_ctl.sidescroll_once_val && home_ctl.sidescroll_once_val<(sl-edge/2)){
+				if (sl>home_ctl.sidescroll_once_val && home_ctl.sidescroll_once_val<(sl-edge*0.5)){
+					/** Swipe Right **/
+					if (ctx.base.number>=ctx.base.names.length-1)
+						return;
+					ctx.base.number+=1;
+					
+					$("#page-container").off("scroll",home_ctl.sidescroll_handler);
+				
 					console.log("sak page");
-					home_ctl.sidescroll_once = false;
 					home_ctl.sidescroll_once_val = $("#page-container").scrollLeft();
-					$("#page-container").scrollLeft((sl+320)-((sl+320)%320));
+					/** this will handle the custom fast&light swipe **/
+					/** disabled its scroll for a while **/
+					/**
+						 1  2  3
+						   |x|
+						[ ][ ][ ]
+					*/
+					//~ scrollLeftOverflow("page-container", $("#page-container").width()*(ctx.base.number-2));
+					$("#page-container .sidescroll").width(
+						$("#page-container").width()*2
+					);
+					$("#page-container .sidescroll").css("margin-left",(-$("#page-container").width()*(ctx.base.number-1))+"px");
+					/** make it scrollable again **/
+					
+					home_ctl.ctx_reload(function(){
+						refresh(room_home, ctx);
+						setTimeout(
+							function(){
+								console.log("uwis");
+								console.log(ctx.base.number);
+								if (ctx.base.number==1 || ctx.base.number==ctx.base.names.length-1)
+								{
+									$("#page-container .sidescroll").width(
+										$("#page-container").width()*2
+									);
+								}
+								else
+								{
+									$("#page-container .sidescroll").width(
+										$("#page-container").width()*3
+									);
+								}
+								
+								if (ctx.base.number==1)
+								{
+									$("#page-container .sidescroll").css("margin-left",(-$("#page-container").width())+"px");
+									scrollLeftOverflow("page-container", 0);
+								}
+								else
+								{
+									$("#page-container .sidescroll").css("margin-left","0px");
+									scrollLeftOverflow("page-container", $("#page-container").width()*1)
+								}
+								
+								home_ctl.sidescroll_once = false;
+								
+								$("#page-container").on("scroll",home_ctl.sidescroll_handler);
+							}, 5
+						);
+					});
+
 				}
-				else if (sl<home_ctl.sidescroll_once_val && home_ctl.sidescroll_once_val>(sl+edge/2)){
+				else if (sl<home_ctl.sidescroll_once_val && home_ctl.sidescroll_once_val>(sl+edge*0.5)){
+					/** Swipe Left **/
+					if (ctx.base.number<=1)
+						return;
+					ctx.base.number-=1;
+					
+					$("#page-container").off("scroll",home_ctl.sidescroll_handler);
+					
 					console.log("sak page kiwe");
 					home_ctl.sidescroll_once = false;
 					home_ctl.sidescroll_once_val = $("#page-container").scrollLeft();
-					$("#page-container").scrollLeft((sl-320)+((sl-320)%320));
+					
+					
+					/** this will handle the custom fast&light swipe **/
+					/** disabled its scroll for a while **/
+					/**
+						 1  2  3
+						   |x|
+						[ ][ ][ ]
+					*/
+					//~ scrollLeftOverflow("page-container", 0);
+					$("#page-container .sidescroll").width(
+						$("#page-container").width()*2
+					);
+					$("#page-container .sidescroll").css("margin-left",(-$("#page-container").width()*(ctx.base.number+1))+"px");
+					/** make it scrollable again **/
+					home_ctl.ctx_reload(function(){
+						refresh(room_home, ctx);
+						setTimeout(
+							function(){
+								
+								if (ctx.base.number==ctx.base.names.length-1)
+								{
+									$("#page-container .sidescroll").width(
+										$("#page-container").width()*2
+									);
+								}
+								else
+								{
+									$("#page-container .sidescroll").width(
+										$("#page-container").width()*3
+									);
+								}
+								if (ctx.base.number==(ctx.base.names.length-1))
+								{
+									$("#page-container .sidescroll").css("margin-left",($("#page-container").width())+"px");
+									scrollLeftOverflow("page-container", ($("#page-container").width()*1));
+								}
+								else if (ctx.base.number==1)
+								{
+									$("#page-container .sidescroll").css("margin-left",(-$("#page-container").width())+"px");
+									scrollLeftOverflow("page-container", 0);
+								}
+								else
+								{
+									$("#page-container .sidescroll").css("margin-left","0px");
+									scrollLeftOverflow("page-container", $("#page-container").width()*1)
+								}
+								
+								
+								home_ctl.sidescroll_once = false;
+								
+								$("#page-container").on("scroll",home_ctl.sidescroll_handler);
+							}, 5
+						);
+					});
+					
+					//$("#page-container").scrollLeft((sl-320)+((sl-320)%320));
+					//~ setTimeout(function(){document.getElementById("page-container").scrollLeft = ((sl-320)+((sl-320)%320));}, 500);
+					//~ $("#page-container .sidescroll").html($("#page-container .sidescroll").html());
+					
+					//~ $("#page-container .sidescroll").width(0);
+					//~ $("#page-container .sidescroll").width($("#page-container").width());
+					//~ $("#page-container .sidescroll").width(
+						//~ $("#page-container").width()*$(".sidescroll .main").length
+					//~ );
+					//~ $("#page-container  .sidescroll").css("margin-left","320px");
 				}
 			},
 	on_swipe_handler: 
 			function (e) {
 				swipee = e;
-				//~ keys = Object.keys(e);
-				//~ var debug = "";
-				//~ for (i=0; i<keys.length; i++)
-				//~ {
-					//~ ob = e[keys[i]];
-					//~ try {
-						//~ ob = JSON.stringify(ob);
-					//~ }
-					//~ catch (err) {
-					//~ }
-					//~ debug = debug + ob + "<br/>";
-				//~ }
-				//~ $("#title").html(debug+"<br/><br/>"+this.not_currently_scrolling);
-				//~ $("#dot1").css("left",e.swipestart.coords[0]);
-				//~ $("#dot1").css("top",e.swipestart.coords[1]);
-				//~ $("#dot2").css("left",e.swipestop.coords[0]);
-				//~ $("#dot2").css("top",e.swipestop.coords[1]);
 				if (home_ctl.not_currently_scrolling)
 				{
 					if ((e.swipestart.coords[0]-e.swipestop.coords[0])>30

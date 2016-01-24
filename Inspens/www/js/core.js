@@ -45,3 +45,10 @@ function refreshTo(selector, room_template, context) {
 }
 //--init called in index.js
 ctx = {}
+
+function scrollLeftOverflow(idname,left) {
+	/** cordova fix to set scroll position when overflow is not scroll **/
+	$("#"+idname).css("overflow","hidden");
+	document.getElementById(idname).scrollLeft = left;
+	$("#"+idname).css("overflow","scroll");
+}
