@@ -74,7 +74,9 @@ home_ctl = {
 							scrollLeftOverflow("page-container", closest);
 							console.log(closest/edge);
 							ctx.base.pos = closest/edge +1;
-							
+							home_ctl.ctx_reload(function(){
+								
+							});
 						}
 					},
 					50
