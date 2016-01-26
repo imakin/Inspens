@@ -18,18 +18,13 @@ home_ctl = {
 							total_transfer_expense: 0
 						};
 				ctx.base = {
-							number: 1,
+							pos: 1,
 							total: 6,
-							name: "Cash in Hand"
+							name: "Cash in Hand",
+							number: 1, //-- avoid using this
 						};
 				home_ctl.ctx_reload(function(){
 					refresh(room_home, ctx);
-					if (ctx.base.number==1)
-					{
-						//~ $("#page-container .sidescroll").css("margin-left",(-$("#page-container").width())+"px");
-						scrollLeftOverflow("page-container", 0);
-					}
-					
 				});
 				home_ctl.not_currently_scrolling = true;
 				
@@ -77,181 +72,72 @@ home_ctl = {
 								closest = sl-c1;
 
 							scrollLeftOverflow("page-container", closest);
+							console.log(closest/edge);
+							ctx.base.pos = closest/edge +1;
+							
 						}
 					},
-					100
+					50
 				);
-				//~ setTimeout(
-					//~ function(){
-						//~ if (!home_ctl.not_currently_scrolling) {
-							//~ return;
-						//~ }
-						//~ else if (!home_ctl.sidescroll_once){
-							//~ var c1,c2;
-							//~ var closest;
-							//~ c1 = sl%edge;
-							//~ c2 = edge - c1;
-							//~ if (c1>c2)
-								//~ closest = sl+c2;
-							//~ else
-								//~ closest = sl+c1;
-//~ 
-							//~ scrollLeftOverflow("page-container", closest);
-							//~ home_ctl.sidescroll_once = true;
-						//~ }
-					//~ },
-					//~ 500
-				//~ );
-			},
-	sidescroll_handler:
-			function() {
-				if (! home_ctl.sidescroll_once)
-				{
-					home_ctl.sidescroll_once_val = $("#page-container").scrollLeft();
-					home_ctl.sidescroll_once = true;
-					//~ console.log("diganti");
-					//~ console.log(home_ctl.sidescroll_once_val);
-				}
-				var sl = $("#page-container").scrollLeft();
-				var edge = $("#page-container").width();
-				if (sl>home_ctl.sidescroll_once_val && home_ctl.sidescroll_once_val<(sl-edge*0.5)){
-					/** Swipe Right **/
-					if (ctx.base.number>=ctx.base.names.length-1)
-						return;
-					ctx.base.number+=1;
-					
-					$("#page-container").off("scroll",home_ctl.sidescroll_handler);
-				
-					console.log("sak page");
-					home_ctl.sidescroll_once_val = $("#page-container").scrollLeft();
-					
-					var c1,c2;
-					var closest;
-					c1 = sl%edge;
-					c2 = edge - c1;
-					if (c1>c2)
-						closest = sl+c2;
-					else
-						closest = sl+c1;
-
-					scrollLeftOverflow("page-container", closest);
-					
-					/* This code prevents users from dragging the page */
-					var preventDefaultScroll = function(event) {
-						event.preventDefault();
-						//~ window.scroll(0,0);
-						return false;
-					};
-					document.addEventListener('touchmove', preventDefaultScroll, false);
-
-				}
-				else if (sl<home_ctl.sidescroll_once_val && home_ctl.sidescroll_once_val>(sl+edge*0.5)){
-					/** Swipe Left **/
-					if (ctx.base.number<=1)
-						return;
-					ctx.base.number-=1;
-					
-					$("#page-container").off("scroll",home_ctl.sidescroll_handler);
-				
-					console.log("sak page");
-					home_ctl.sidescroll_once_val = $("#page-container").scrollLeft();
-					
-					var c1,c2;
-					var closest;
-					c1 = sl%edge;
-					c2 = edge - c1;
-					if (c1>c2)
-						closest = sl+c2;
-					else
-						closest = sl+c1;
-
-					scrollLeftOverflow("page-container", closest);
-					
-					/* This code prevents users from dragging the page */
-					var preventDefaultScroll = function(event) {
-						event.preventDefault();
-						//~ window.scroll(0,0);
-						return false;
-					};
-					document.addEventListener('touchmove', preventDefaultScroll, false);
-
-				}
-			},
-	on_swipe_handler: 
-			function (e) {
-				swipee = e;
-				if (home_ctl.not_currently_scrolling)
-				{
-					if ((e.swipestart.coords[0]-e.swipestop.coords[0])>30
-						&& ctx.base.number<6
-					){
-						ctx.base.number += 1;
-						home_ctl.scroll(room_home, "right", (e.swipestop.time - e.swipestart.time)*2);
-					} 
-					else if ((e.swipestart.coords[0]-e.swipestop.coords[0])<-30
-						&& ctx.base.number>1
-					){
-						ctx.base.number -= 1;
-						home_ctl.scroll(room_home, "left", (e.swipestop.time - e.swipestart.time)*2);
-					}
-				}
 			},
 	ctx_reload: function(done_callback){
 			//-- reload all ctx values that retrieved from database, specific for this home room only
 			//-- done callback called when ctx is reloaded
 			//-- don't judge me, this is how asynchronous done
-			getMonthSummary("EXPENSE", 0, "BETWEEN", -1, ctx.base.number,
-				function(tx, res){
-					if (res.rows.length<1 || res.rows.item(0).sum_amount==null) {
-						ctx.summary.total_expense = 0.0;
+			model.accounts.filter(
+				"type='BASE'",
+				function(tx,res){
+					ctx.base.names = [{id:0, name:'zero'}]
+					for (aci=0; aci<res.rows.length; aci++){
+						ctx.base.names.push({id:res.rows.item(aci).id, name:res.rows.item(aci).name});
 					}
-					else {
-						ctx.summary.total_expense = parseFloat(res.rows.item(0).sum_amount);
-					}
-					getMonthSummary("INCOME", 0, "BETWEEN", -1, ctx.base.number,
-						function(tx,res){
+					ctx.base.total = res.rows.length;
+					ctx.base.number = ctx.base.names[ctx.base.pos].id;
+					getMonthSummary("EXPENSE", 0, "BETWEEN", -1, ctx.base.number,
+						function(tx, res){
 							if (res.rows.length<1 || res.rows.item(0).sum_amount==null) {
-								ctx.summary.total_income = 0.0;
+								ctx.summary.total_expense = 0.0;
 							}
 							else {
-								ctx.summary.total_income = parseFloat(res.rows.item(0).sum_amount);
+								ctx.summary.total_expense = parseFloat(res.rows.item(0).sum_amount);
 							}
-							getMonthSummary("TRANSFERINCOME", 0, "BETWEEN", -1, ctx.base.number,
+							getMonthSummary("INCOME", 0, "BETWEEN", -1, ctx.base.number,
 								function(tx,res){
 									if (res.rows.length<1 || res.rows.item(0).sum_amount==null) {
-										ctx.summary.total_transfer_income = 0.0;
+										ctx.summary.total_income = 0.0;
 									}
 									else {
-										ctx.summary.total_transfer_income = parseFloat(res.rows.item(0).sum_amount);
+										ctx.summary.total_income = parseFloat(res.rows.item(0).sum_amount);
 									}
-									getMonthSummary("TRANSFEREXPENSE", 0, "BETWEEN", -1, ctx.base.number,
+									getMonthSummary("TRANSFERINCOME", 0, "BETWEEN", -1, ctx.base.number,
 										function(tx,res){
 											if (res.rows.length<1 || res.rows.item(0).sum_amount==null) {
-												ctx.summary.total_transfer_expense = 0.0;
+												ctx.summary.total_transfer_income = 0.0;
 											}
 											else {
-												ctx.summary.total_transfer_expense = parseFloat(res.rows.item(0).sum_amount);
+												ctx.summary.total_transfer_income = parseFloat(res.rows.item(0).sum_amount);
 											}
-											model.accounts.filter(
-												"type='BASE'",
+											getMonthSummary("TRANSFEREXPENSE", 0, "BETWEEN", -1, ctx.base.number,
 												function(tx,res){
-													ctx.base.names = [{id:0, name:'zero'}]
-													for (aci=0; aci<res.rows.length; aci++){
-														ctx.base.names.push({id:res.rows.item(aci).id, name:res.rows.item(aci).name});
+													if (res.rows.length<1 || res.rows.item(0).sum_amount==null) {
+														ctx.summary.total_transfer_expense = 0.0;
 													}
-													ctx.base.total = res.rows.length;
+													else {
+														ctx.summary.total_transfer_expense = parseFloat(res.rows.item(0).sum_amount);
+													}
 													done_callback();
-												},
-												function(){}
-											);
+												}
+											);//--transfer expense
 										}
-									);//--transfer expense
+									);//-- transfer income
 								}
-							);//-- transfer income
+							);//--income
 						}
-					);//--income
-				}
-			);//--expense
+					);//--expense
+				},
+				function(){}
+			);
+			
 		},
 	scroll: function (room_template, direction, speed) {
 			var leftto;
