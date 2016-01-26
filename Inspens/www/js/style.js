@@ -7,8 +7,8 @@ function refresh_style(){
 	
 	$("#page-container").width(winW);
 	$("#page-container .sidescroll").width(
-		//~ $("#page-container").width()*$(".sidescroll .main").length
-		$("#page-container").width()*3
+		$("#page-container").width()*$(".sidescroll .main").length
+		//~ $("#page-container").width()*3
 	);
 	var  mainmargin = parseInt($(".sidescroll .main").css("margin-left"));
 	$(".sidescroll .main").width(winW - 2*(mainmargin));

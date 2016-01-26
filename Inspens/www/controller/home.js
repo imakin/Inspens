@@ -26,13 +26,12 @@ home_ctl = {
 					refresh(room_home, ctx);
 					if (ctx.base.number==1)
 					{
-						$("#page-container .sidescroll").css("margin-left",(-$("#page-container").width())+"px");
+						//~ $("#page-container .sidescroll").css("margin-left",(-$("#page-container").width())+"px");
 						scrollLeftOverflow("page-container", 0);
 					}
 					
 				});
 				home_ctl.not_currently_scrolling = true;
-				//~ $(window).on("swipe",home_ctl.on_swipe_handler);
 				
 				$("body").off("click", "#bt_home_add_income", room_list_ctl.goto_add_income);
 				$("body").on("click", "#bt_home_add_income", room_list_ctl.goto_add_income);
@@ -40,7 +39,8 @@ home_ctl = {
 				$("body").on("click", "#bt_home_add_expense", room_list_ctl.goto_add_expense);
 				$("body").off("click", "#bt_home_edit_accounts", room_list_ctl.goto_edit_accounts);
 				$("body").on("click", "#bt_home_edit_accounts", room_list_ctl.goto_edit_accounts);
-				$("#page-container").on("scroll",home_ctl.sidescroll_handler);
+				terakhir = null;
+				$("#page-container").on("scroll",home_ctl.sidescroll_handler_new);
 				//~ abc = document.getElementById("page-container");
 				//~ abc.scrollLeft = 330;
 				//~ setTimeout(function(){
@@ -57,6 +57,52 @@ home_ctl = {
 	not_currently_scrolling: true,
 	sidescroll_once: false,
 	sidescroll_once_val: 0,
+	sidescroll_handler_new:
+			function() {
+				var sl = $("#page-container").scrollLeft();
+				var edge = $("#page-container").width();
+				terakhir = setTimeout(
+					function(){
+						home_ctl.sidescroll_once_val = $("#page-container").scrollLeft();
+						if (home_ctl.sidescroll_once_val==sl) {
+							clearTimeout(terakhir);
+							var c1,c2;
+							var closest;
+							c1 = sl%edge;
+							c2 = edge - c1;
+							console.log(c1+" " +c2);
+							if (c1>c2)
+								closest = sl+c2;
+							else
+								closest = sl-c1;
+
+							scrollLeftOverflow("page-container", closest);
+						}
+					},
+					100
+				);
+				//~ setTimeout(
+					//~ function(){
+						//~ if (!home_ctl.not_currently_scrolling) {
+							//~ return;
+						//~ }
+						//~ else if (!home_ctl.sidescroll_once){
+							//~ var c1,c2;
+							//~ var closest;
+							//~ c1 = sl%edge;
+							//~ c2 = edge - c1;
+							//~ if (c1>c2)
+								//~ closest = sl+c2;
+							//~ else
+								//~ closest = sl+c1;
+//~ 
+							//~ scrollLeftOverflow("page-container", closest);
+							//~ home_ctl.sidescroll_once = true;
+						//~ }
+					//~ },
+					//~ 500
+				//~ );
+			},
 	sidescroll_handler:
 			function() {
 				if (! home_ctl.sidescroll_once)
@@ -78,56 +124,25 @@ home_ctl = {
 				
 					console.log("sak page");
 					home_ctl.sidescroll_once_val = $("#page-container").scrollLeft();
-					/** this will handle the custom fast&light swipe **/
-					/** disabled its scroll for a while **/
-					/**
-						 1  2  3
-						   |x|
-						[ ][ ][ ]
-					*/
-					//~ scrollLeftOverflow("page-container", $("#page-container").width()*(ctx.base.number-2));
-					$("#page-container .sidescroll").width(
-						$("#page-container").width()*2
-					);
-					$("#page-container .sidescroll").css("margin-left",(-$("#page-container").width()*(ctx.base.number-1))+"px");
-					/** make it scrollable again **/
 					
-					home_ctl.ctx_reload(function(){
-						refresh(room_home, ctx);
-						setTimeout(
-							function(){
-								console.log("uwis");
-								console.log(ctx.base.number);
-								if (ctx.base.number==1 || ctx.base.number==ctx.base.names.length-1)
-								{
-									$("#page-container .sidescroll").width(
-										$("#page-container").width()*2
-									);
-								}
-								else
-								{
-									$("#page-container .sidescroll").width(
-										$("#page-container").width()*3
-									);
-								}
-								
-								if (ctx.base.number==1)
-								{
-									$("#page-container .sidescroll").css("margin-left",(-$("#page-container").width())+"px");
-									scrollLeftOverflow("page-container", 0);
-								}
-								else
-								{
-									$("#page-container .sidescroll").css("margin-left","0px");
-									scrollLeftOverflow("page-container", $("#page-container").width()*1)
-								}
-								
-								home_ctl.sidescroll_once = false;
-								
-								$("#page-container").on("scroll",home_ctl.sidescroll_handler);
-							}, 5
-						);
-					});
+					var c1,c2;
+					var closest;
+					c1 = sl%edge;
+					c2 = edge - c1;
+					if (c1>c2)
+						closest = sl+c2;
+					else
+						closest = sl+c1;
+
+					scrollLeftOverflow("page-container", closest);
+					
+					/* This code prevents users from dragging the page */
+					var preventDefaultScroll = function(event) {
+						event.preventDefault();
+						//~ window.scroll(0,0);
+						return false;
+					};
+					document.addEventListener('touchmove', preventDefaultScroll, false);
 
 				}
 				else if (sl<home_ctl.sidescroll_once_val && home_ctl.sidescroll_once_val>(sl+edge*0.5)){
@@ -137,76 +152,29 @@ home_ctl = {
 					ctx.base.number-=1;
 					
 					$("#page-container").off("scroll",home_ctl.sidescroll_handler);
-					
-					console.log("sak page kiwe");
-					home_ctl.sidescroll_once = false;
+				
+					console.log("sak page");
 					home_ctl.sidescroll_once_val = $("#page-container").scrollLeft();
 					
+					var c1,c2;
+					var closest;
+					c1 = sl%edge;
+					c2 = edge - c1;
+					if (c1>c2)
+						closest = sl+c2;
+					else
+						closest = sl+c1;
+
+					scrollLeftOverflow("page-container", closest);
 					
-					/** this will handle the custom fast&light swipe **/
-					/** disabled its scroll for a while **/
-					/**
-						 1  2  3
-						   |x|
-						[ ][ ][ ]
-					*/
-					//~ scrollLeftOverflow("page-container", 0);
-					$("#page-container .sidescroll").width(
-						$("#page-container").width()*2
-					);
-					$("#page-container .sidescroll").css("margin-left",(-$("#page-container").width()*(ctx.base.number+1))+"px");
-					/** make it scrollable again **/
-					home_ctl.ctx_reload(function(){
-						refresh(room_home, ctx);
-						setTimeout(
-							function(){
-								
-								if (ctx.base.number==ctx.base.names.length-1)
-								{
-									$("#page-container .sidescroll").width(
-										$("#page-container").width()*2
-									);
-								}
-								else
-								{
-									$("#page-container .sidescroll").width(
-										$("#page-container").width()*3
-									);
-								}
-								if (ctx.base.number==(ctx.base.names.length-1))
-								{
-									$("#page-container .sidescroll").css("margin-left",($("#page-container").width())+"px");
-									scrollLeftOverflow("page-container", ($("#page-container").width()*1));
-								}
-								else if (ctx.base.number==1)
-								{
-									$("#page-container .sidescroll").css("margin-left",(-$("#page-container").width())+"px");
-									scrollLeftOverflow("page-container", 0);
-								}
-								else
-								{
-									$("#page-container .sidescroll").css("margin-left","0px");
-									scrollLeftOverflow("page-container", $("#page-container").width()*1)
-								}
-								
-								
-								home_ctl.sidescroll_once = false;
-								
-								$("#page-container").on("scroll",home_ctl.sidescroll_handler);
-							}, 5
-						);
-					});
-					
-					//$("#page-container").scrollLeft((sl-320)+((sl-320)%320));
-					//~ setTimeout(function(){document.getElementById("page-container").scrollLeft = ((sl-320)+((sl-320)%320));}, 500);
-					//~ $("#page-container .sidescroll").html($("#page-container .sidescroll").html());
-					
-					//~ $("#page-container .sidescroll").width(0);
-					//~ $("#page-container .sidescroll").width($("#page-container").width());
-					//~ $("#page-container .sidescroll").width(
-						//~ $("#page-container").width()*$(".sidescroll .main").length
-					//~ );
-					//~ $("#page-container  .sidescroll").css("margin-left","320px");
+					/* This code prevents users from dragging the page */
+					var preventDefaultScroll = function(event) {
+						event.preventDefault();
+						//~ window.scroll(0,0);
+						return false;
+					};
+					document.addEventListener('touchmove', preventDefaultScroll, false);
+
 				}
 			},
 	on_swipe_handler: 

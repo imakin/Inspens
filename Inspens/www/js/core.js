@@ -52,3 +52,26 @@ function scrollLeftOverflow(idname,left) {
 	document.getElementById(idname).scrollLeft = left;
 	$("#"+idname).css("overflow","scroll");
 }
+function scrollLeftOverflowAnimate(idname,horpos) {
+	/** todo **/
+	var start = document.getElementById(idname).scrollLeft;
+	$("#"+idname).css("overflow","hidden");
+	if (horpos<start)
+	{
+		for (i=5;i<30;i+=5){
+			setTimeout(function(){
+				document.getElementById(idname).scrollLeft -= (start-horpos)/6;
+			}, i);
+		}
+	}
+	else
+	{
+		for (i=5;i<30;i+=5){
+			setTimeout(function(){
+				document.getElementById(idname).scrollLeft += (horpos-start)/6;
+			}, i);
+		}
+	}
+	//~ document.getElementById(idname).scrollLeft = horpos;
+	$("#"+idname).css("overflow","scroll");
+}
