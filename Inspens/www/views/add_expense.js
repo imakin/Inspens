@@ -9,7 +9,7 @@ room_add_expense = ""+
 "</header>"+
 "<section class=\"main fr\">"+
 "	<div class=\"left full\">"+
-"		Expense for: { <%this.base.number%>. <%this.base.name%> }"+
+"		Expense for: { <%this.base.number%>. <%this.base.names[this.base.pos].name%> }"+
 "	</div>"+
 "	<div class=\"center full\">"+
 "		<select name=\"ip_add_expense_type\" id=\"ip_add_expense_type\" data-role=\"slider\" class=\"ui-slider-label ui-slider-label-a ui-btn-active\">"+

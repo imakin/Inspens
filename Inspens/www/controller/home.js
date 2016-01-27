@@ -65,21 +65,19 @@ home_ctl = {
 							var closest;
 							c1 = sl%edge;
 							c2 = edge - c1;
-							console.log(c1+" " +c2);
 							if (c1>c2)
 								closest = sl+c2;
 							else
 								closest = sl-c1;
 
 							scrollLeftOverflow("page-container", closest);
-							console.log(closest/edge);
 							ctx.base.pos = closest/edge +1;
 							home_ctl.ctx_reload(function(){
-								
+								refreshTo("#home_base"+ctx.base.pos,room_home_perbase, ctx);
 							});
 						}
 					},
-					50
+					(winW*0.6)%500
 				);
 			},
 	ctx_reload: function(done_callback){

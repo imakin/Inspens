@@ -6,7 +6,7 @@ room_home = ""+
 "		base_page<this.base.names.length;"+
 "		base_page++"+
 "	) {%>"+
-"	<section class=\"main\" id=\"homepage<%base_page%>\">"+
+"	<section class=\"main\" id=\"home_base<%base_page%>\">"+
 "		<div class=\"left full\">"+
 "			(<%base_page%>/<%(this.base.names.length-1)%>) Base account: <%this.base.names[base_page].name%>"+
 "		</div>"+

@@ -1,6 +1,6 @@
 room_home_perbase = ""+
 "<div class=\"left full\">"+
-"	(<%base_page%>/<%(this.base.names.length-1)%>) Base account: <%this.base.names[base_page].name%>"+
+"	(<%this.base.pos%>/<%(this.base.names.length-1)%>) Base account: <%this.base.names[this.base.pos].name%>"+
 "</div>"+
 ""+
 "<div class=\"mid full\">"+
