@@ -14,7 +14,7 @@ all: $(SOURCES)
 	python Inspens/www/views/compile.py Inspens/www/views/
 
 debug:
-	abd logcat | grep Web
+	adb logcat | grep -e Web -e sqlg -e PluginManager -e IInputConnectionWrapper 
 
 html: $(MAINTARGET)
 	#  $(MAINTARGET) is ready

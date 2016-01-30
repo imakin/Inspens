@@ -9,7 +9,7 @@ add_expense_ctl = {
 			try {ctx.active_room_close();} catch (err) {}
 			refresh(room_add_expense, ctx);
 			ctx.active_room_close = add_expense_ctl.close;
-			ctx.room_back = home_ctl.initialize;
+			ctx.room_back = room_list_ctl.goto_home;
 			
 			try{
 				var endorsement_controls =  $('#page select');

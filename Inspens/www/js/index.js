@@ -36,6 +36,7 @@ var app = {
         app.receivedEvent('deviceready');
         try {
 			db = window.sqlitePlugin.openDatabase({name: "Inspens.db"});
+			console.log = hpconsole;
 		}
 		catch (err) {
 			db = window.openDatabase("Inspens.db", '1.0', 'inspens', 2*1024*1024);
@@ -72,7 +73,6 @@ var app = {
 					);
 				}
 		);
-		home_ctl.initialize();
 		room_list_ctl.initialize();
         account_list_ctl.initialize();
     },

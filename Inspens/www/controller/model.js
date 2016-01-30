@@ -94,7 +94,19 @@ function getMonthSummary(type, month, scope, specificAccountId, baseAccountId, c
 	}
 	//return return_val_MonthSummary;
 }
-
+function model_refreshBaseNames(cb2){
+	model.accounts.filter(
+				"type='BASE' ORDER BY id",
+				function(tx,res){
+					ctx.base.names = [{id:0, name:'zero'}]
+					for (aci=0; aci<res.rows.length; aci++){
+						ctx.base.names.push({id:res.rows.item(aci).id, name:res.rows.item(aci).name});
+					}
+					ctx.base.total = res.rows.length;
+					cb2(tx,res);
+				}, function(){}
+			);
+}
 model = {
 	accounts: {
 		name: 'accounts',

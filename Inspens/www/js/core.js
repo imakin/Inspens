@@ -75,3 +75,7 @@ function scrollLeftOverflowAnimate(idname,horpos) {
 	//~ document.getElementById(idname).scrollLeft = horpos;
 	$("#"+idname).css("overflow","scroll");
 }
+
+function hpconsole(text){
+	$("#hpconsole").html(text);
+}

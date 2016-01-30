@@ -17,12 +17,16 @@ home_ctl = {
 							total_transfer_income: 500000,
 							total_transfer_expense: 0
 						};
-				ctx.base = {
-							pos: 1,
-							total: 6,
-							name: "Cash in Hand",
-							number: 1, //-- avoid using this
-						};
+				if (!ctx.base)
+					ctx.base = {};
+				if (!ctx.base.pos)
+					ctx.base.pos = 1;
+				if (!ctx.base.total)
+					ctx.base.total = 3;
+				if (!ctx.base.name)
+					ctx.base.name = "Cash";
+				if (!ctx.base.number)
+					ctx.base.numver = 1; //-- this is base id
 				home_ctl.ctx_reload(function(){
 					refresh(room_home, ctx);
 				});
@@ -85,7 +89,7 @@ home_ctl = {
 			//-- done callback called when ctx is reloaded
 			//-- don't judge me, this is how asynchronous done
 			model.accounts.filter(
-				"type='BASE'",
+				"type='BASE' ORDER BY id",
 				function(tx,res){
 					ctx.base.names = [{id:0, name:'zero'}]
 					for (aci=0; aci<res.rows.length; aci++){
@@ -93,6 +97,9 @@ home_ctl = {
 					}
 					ctx.base.total = res.rows.length;
 					ctx.base.number = ctx.base.names[ctx.base.pos].id;
+					
+					console.log("pos: "+ctx.base.pos+" and id:"+ctx.base.number);
+					
 					getMonthSummary("EXPENSE", 0, "BETWEEN", -1, ctx.base.number,
 						function(tx, res){
 							if (res.rows.length<1 || res.rows.item(0).sum_amount==null) {
