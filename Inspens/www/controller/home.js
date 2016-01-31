@@ -10,6 +10,7 @@ home_ctl = {
 				try {ctx.active_room_close();} catch (err) {}
 				ctx.active_room_close = home_ctl.close;
 				ctx.setting = setting; //-- global var setting in core.js
+				ctx.setting.report_picked_month = new Date().getMonth()+1;
 				ctx.summary = {
 							last_period_balance: 0,
 							total_income: 0,
@@ -29,6 +30,7 @@ home_ctl = {
 					ctx.base.numver = 1; //-- this is base id
 				home_ctl.ctx_reload(function(){
 					refresh(room_home, ctx);
+					scrollLeftOverflow("page-container",winW*(ctx.base.pos-1)+2);
 				});
 				home_ctl.not_currently_scrolling = true;
 				
@@ -40,12 +42,7 @@ home_ctl = {
 				$("body").on("click", "#bt_home_edit_accounts", room_list_ctl.goto_edit_accounts);
 				terakhir = null;
 				$("#page-container").on("scroll",home_ctl.sidescroll_handler_new);
-				//~ abc = document.getElementById("page-container");
-				//~ abc.scrollLeft = 330;
-				//~ setTimeout(function(){
-						//~ scrollLeftOverflow("page-container", 400);
-					//~ }, 500
-				//~ );
+				
 				
 				
 			},

@@ -15,13 +15,6 @@ add_income_ctl = {
 			ctx.active_room_close = add_income_ctl.close;
 			ctx.room_back = room_list_ctl.goto_home;
 			
-			try{
-				var endorsement_controls =  $('#page select');
-				endorsement_controls.each(function(){
-					$(this).slider();
-					$(this).slider('refresh');
-				});
-			} catch(e) {}
 			
 			$("body").off("click", "#ip_add_income_account");
 			$("body").on("click", "#ip_add_income_account", add_income_ctl.pick_account);
@@ -68,24 +61,16 @@ add_income_ctl = {
 		},
 	save:
 		function() {
-			var data = {
+			var data_local = {
 						amount : this.getval("amount"),
-						base_account_id : this.getval("account"),
+						base_account_id : ctx.base.names[ctx.base.pos].id,
 						from_account_id : this.getval("account"),
 						date : this.getval("date"),
 						description : this.getval("description"),
-						type : this.getval("type"),
+						type : 'INCOME',
 				};
-			if (data.type=="normal") {
-				data.type = "EXPENSE";
-				data.base_account_id = ctx.base.number;
-			}
-			else {//--transfer expense
-				data.type = "TRANSFEREXPENSE";
-				data.base_account_id = ctx.base.number;
-			}
 			model.incomesexpenses.insert(
-							data,function(tx,res){}, 
+							data_local,function(tx,res){}, 
 							function(){ctx.room_back();}
 						);
 		},
@@ -93,11 +78,8 @@ add_income_ctl = {
 		function(){
 			var type = add_income_ctl.getval("type");
 			var actype;
-			if (type=="normal")
-				actype = "EXPENSE";
-			else
-				actype = "BASE"
-			account_list_ctl.account_ctx.message = "Select "+actype+" account";
+			actype = "INCOME"
+			account_list_ctl.account_ctx.message = "Select "+actype+" account from";
 			account_list_ctl.show_filter(
 				" type='"+actype+"' ",
 				function(){

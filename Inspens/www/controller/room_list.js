@@ -52,6 +52,10 @@ room_list_ctl = {
 					{
 						add_expense_ctl.initialize();
 					}
+					else if (window.location.hash.search("#add_income")>=0)
+					{
+						add_income_ctl.initialize();
+					}
 					else if(window.location.hash.search("#console")>=0)
 					{
 						console_ctl.initialize();
@@ -92,7 +96,11 @@ room_list_ctl = {
 				$("#room_list_container").hide()
 			},
 	goto_add_income:
-			function() {},
+			function() {
+				window.location = windowjump+"#add_income?"+
+						"ctx.base.pos="+ctx.base.pos;
+				$("#room_list_container").hide()
+			},
 	goto_edit_accounts:
 			function() {},
 }

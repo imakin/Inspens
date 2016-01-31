@@ -68,7 +68,7 @@ add_expense_ctl = {
 		},
 	save:
 		function() {
-			var data = {
+			var data_local = {
 						amount : this.getval("amount"),
 						base_account_id : this.getval("account"),
 						from_account_id : this.getval("account"),
@@ -76,16 +76,16 @@ add_expense_ctl = {
 						description : this.getval("description"),
 						type : this.getval("type"),
 				};
-			if (data.type=="normal") {
-				data.type = "EXPENSE";
-				data.base_account_id = ctx.base.number;
+			if (data_local.type=="normal") {
+				data_local.type = "EXPENSE";
+				data_local.base_account_id = ctx.base.names[ctx.base.pos].id;
 			}
 			else {//--transfer expense
-				data.type = "TRANSFEREXPENSE";
-				data.base_account_id = ctx.base.number;
+				data_local.type = "TRANSFEREXPENSE";
+				data_local.base_account_id = ctx.base.names[ctx.base.pos].id;
 			}
 			model.incomesexpenses.insert(
-							data,function(tx,res){}, 
+							data_local,function(tx,res){}, 
 							function(){ctx.room_back();}
 						);
 		},

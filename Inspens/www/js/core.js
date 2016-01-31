@@ -45,6 +45,9 @@ function refreshTo(selector, room_template, context) {
 }
 //--init called in index.js
 ctx = {}
+ctx.setting = {}
+ctx.setting.report_picked_month = new Date().getMonth()+1;
+ctx.setting.close_book_date = 1;
 
 function scrollLeftOverflow(idname,left) {
 	/** cordova fix to set scroll position when overflow is not scroll **/

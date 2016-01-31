@@ -43,14 +43,14 @@ function getMonthSummary(type, month, scope, specificAccountId, baseAccountId, c
 	var c = new Date();
 	var mYear = setting.report_picked_year;
 	var mMonth;
-	var mDay = c.getDay();
+	var mDay = c.getDate();
 	
 	if (month>0)
 		mMonth = month
 	else
-		mMonth = setting.report_picked_month + month;
+		mMonth = ctx.setting.report_picked_month + month;
 	
-	if (mDay < setting.close_book_date)
+	if (mDay < ctx.setting.close_book_date)
 		mMonth -= 1; //-- means this period started from previous month
 	
 	var this_month = (
@@ -71,6 +71,8 @@ function getMonthSummary(type, month, scope, specificAccountId, baseAccountId, c
 	
 	if (type=="TRANSFERINCOME")
 	{//--this one is a bit different, (searching TRANSFEREXPENSE to baseaccount)
+		console.log("SELECT SUM(amount) as sum_amount FROM incomesexpenses WHERE from_account_id='"+
+					baseAccountId + "' AND type='TRANSFEREXPENSE' "+date_filter)
 		db.transaction(function(tx) {
 			tx.executeSql(
 				"SELECT SUM(amount) as sum_amount FROM incomesexpenses WHERE from_account_id='"+
@@ -81,6 +83,10 @@ function getMonthSummary(type, month, scope, specificAccountId, baseAccountId, c
 		});
 	}
 	else {
+		console.log("SELECT SUM(amount) as sum_amount FROM incomesexpenses "+
+					"WHERE base_account_id='"+baseAccountId +"' "+
+					"AND type='"+type+"' "+ 
+					date_filter + " " + account_filter)
 		db.transaction(function(tx) {
 			tx.executeSql(
 				"SELECT SUM(amount) as sum_amount FROM incomesexpenses "+
@@ -173,7 +179,16 @@ model = {
 					tx.executeSql(
 						"INSERT INTO "+model.accounts.name+
 						" (id,name,type,enabled) VALUES("+
-							"((SELECT id FROM "+model.accounts.name+" ORDER BY id DESC LIMIT 1)+1), "+
+								"("+
+										"("+
+											"case (select exists (select 1 from "+model.accounts.name+")) "+
+											"when 0 then 0 "+
+											"when 1 then ("+
+												"((SELECT id FROM "+model.accounts.name+" ORDER BY id DESC LIMIT 1)+1)"+
+											")"+
+											"end"+
+										")"+
+								"), "+
 							"'"+data.name+"', "+
 							"'"+data.type+"', "+
 							"1)",
@@ -264,22 +279,31 @@ model = {
 			function(data, cbfunction, cb2){
 			//--replace. executed
 				db.transaction(function(tx){
-					tx.executeSql(
-						"INSERT INTO "+model.incomesexpenses.name+
-						" (id, base_account_id, from_account_id, description, type, amount, date) VALUES("+
-							"((SELECT id FROM "+model.incomesexpenses.name+" ORDER BY id DESC LIMIT 1)+1), "+
-							"'"+data.base_account_id+"', "+
-							"'"+data.from_account_id+"', "+
-							"'"+data.description+"', "+
-							"'"+data.type+"', "+
-							"'"+data.amount+"', "+
-							"'"+data.date+"')",
-						[],
-						function(tx,res){
-							cbfunction(tx,res);
-							cb2();
-						}
-					);
+						tx.executeSql(
+								"INSERT INTO "+model.incomesexpenses.name+
+								" (id, base_account_id, from_account_id, description, type, amount, date) VALUES("+
+									"("+
+										"("+
+											"case (select exists (select 1 from "+model.incomesexpenses.name+")) "+
+											"when 0 then 0 "+
+											"when 1 then ("+
+												"((SELECT id FROM "+model.incomesexpenses.name+" ORDER BY id DESC LIMIT 1)+1)"+
+											")"+
+											"end"+
+										")"+
+									"), "+
+									"'"+data.base_account_id+"', "+
+									"'"+data.from_account_id+"', "+
+									"'"+data.description+"', "+
+									"'"+data.type+"', "+
+									"'"+data.amount+"', "+
+									"'"+data.date+"')",
+							[],
+							function(tx,res){
+								cbfunction(tx,res);
+								cb2();
+							}
+						);
 				});
 			},
 	},
