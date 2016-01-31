@@ -9,7 +9,7 @@ room_add_expense = ""+
 "</header>"+
 "<section class=\"main fr\">"+
 "	<div class=\"left full\">"+
-"		Expense for: { <%this.base.number%>. <%this.base.names[this.base.pos].name%> }"+
+"		Expense for: { <%this.base.names[this.base.pos].id%>. <%this.base.names[this.base.pos].name%> }"+
 "	</div>"+
 "	<div class=\"center full\">"+
 "		<select name=\"ip_add_expense_type\" id=\"ip_add_expense_type\" data-role=\"slider\" class=\"ui-slider-label ui-slider-label-a ui-btn-active\">"+
@@ -27,8 +27,8 @@ room_add_expense = ""+
 "	</div>"+
 "	<div class=\"left full\">"+
 "		<label for=\"ip_add_expense_date\">Date</label>"+
-"        <input id=\"ip_add_expense_date_\" style=\"\" type=\"hidden\" />"+
-"		<button id=\"ip_add_expense_date\" name=\"ip_add_expense_date\" class=\"center full getpopup\"  >-</button>"+
+"        <input id=\"ip_add_expense_date_\" style=\"\" type=\"hidden\" value=\"<%this.edit_incomesexpenses_date%>\"/>"+
+"		<button id=\"ip_add_expense_date\" name=\"ip_add_expense_date\" class=\"center full getpopup\" ><%this.edit_incomesexpenses_date%></button>"+
 "	</div>"+
 "	<div class=\"left full\">"+
 "		<label for=\"ip_add_expense_description\">Description</label>"+

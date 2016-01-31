@@ -1,9 +1,9 @@
 /** 
- * controller for add_expense
- * view : ../views/add_expense.js (room_add_expense)
+ * controller for add_income
+ * view : ../views/add_income.js (room_add_income)
  */
 
-add_expense_ctl = {
+add_income_ctl = {
 	initialize: 
 		function(){
 			try {ctx.active_room_close();} catch (err) {}
@@ -11,8 +11,8 @@ add_expense_ctl = {
 			ctx.nowdate = d.getFullYear()+"-"+zeroFill(d.getMonth()+1, 2)+"-"+zeroFill(d.getDate(),2);
 			ctx.edit_incomesexpenses_date = ctx.nowdate;
 			
-			refresh(room_add_expense, ctx);
-			ctx.active_room_close = add_expense_ctl.close;
+			refresh(room_add_income, ctx);
+			ctx.active_room_close = add_income_ctl.close;
 			ctx.room_back = room_list_ctl.goto_home;
 			
 			try{
@@ -23,36 +23,36 @@ add_expense_ctl = {
 				});
 			} catch(e) {}
 			
-			$("body").off("click", "#ip_add_expense_account");
-			$("body").on("click", "#ip_add_expense_account", add_expense_ctl.pick_account);
+			$("body").off("click", "#ip_add_income_account");
+			$("body").on("click", "#ip_add_income_account", add_income_ctl.pick_account);
 			
 			this.datepickeri= new Pikaday(
 				{
-					field: document.getElementById('ip_add_expense_date_'),
+					field: document.getElementById('ip_add_income_date_'),
 				}
 			);
-			$("#ip_add_expense_date").off("click");
-			$("#ip_add_expense_date").click(
+			$("#ip_add_income_date").off("click");
+			$("#ip_add_income_date").click(
 				function(){
-					add_expense_ctl.datepickeri.show();
+					add_income_ctl.datepickeri.show();
 				}
 			);
-			$("#ip_add_expense_date_").off("change");
-			$("#ip_add_expense_date_").change(
+			$("#ip_add_income_date_").off("change");
+			$("#ip_add_income_date_").change(
 				function(){
-					$("#ip_add_expense_date").html($(this).val());
+					$("#ip_add_income_date").html($(this).val());
 				}
 			);
-			$("#bt_add_expense_save").off("click");
-			$("#bt_add_expense_save").click(
+			$("#bt_add_income_save").off("click");
+			$("#bt_add_income_save").click(
 				function(){
-					add_expense_ctl.save();
+					add_income_ctl.save();
 				}
 			);
 		},
 	close:
 		function(){
-			$("body").off("click", "#ip_add_expense_account", add_expense_ctl.pick_account);
+			$("body").off("click", "#ip_add_income_account", add_income_ctl.pick_account);
 		},
 	data: {
 		from_account_id:0,
@@ -60,10 +60,10 @@ add_expense_ctl = {
 	getval: 
 		function(prop){
 			return prop=="account"?
-					add_expense_ctl.data.from_account_id:(
-						$("#ip_add_expense_"+prop).val()==""?
-							$("#ip_add_expense_"+prop).text():
-							$("#ip_add_expense_"+prop).val()
+					add_income_ctl.data.from_account_id:(
+						$("#ip_add_income_"+prop).val()==""?
+							$("#ip_add_income_"+prop).text():
+							$("#ip_add_income_"+prop).val()
 					);
 		},
 	save:
@@ -91,7 +91,7 @@ add_expense_ctl = {
 		},
 	pick_account:
 		function(){
-			var type = add_expense_ctl.getval("type");
+			var type = add_income_ctl.getval("type");
 			var actype;
 			if (type=="normal")
 				actype = "EXPENSE";
@@ -104,8 +104,8 @@ add_expense_ctl = {
 					$("#account_list button").each(function(){
 						$(this).off("click");
 						$(this).on("click", function(){
-							add_expense_ctl.data.from_account_id = $(this).attr("data-id"); //-- save to data
-							$("#ip_add_expense_account").html($(this).attr("data-name"));
+							add_income_ctl.data.from_account_id = $(this).attr("data-id"); //-- save to data
+							$("#ip_add_income_account").html($(this).attr("data-name"));
 							account_list_ctl.hide();
 						});
 						

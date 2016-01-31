@@ -1,9 +1,39 @@
-<div class="scrollable">
-  <h1 class="scrollable-header">{{base_account_name}} <small>add expense</small></h1>  
-  <div class="scrollable-content">
-	<div class="list-group">
-      Iki room add income
-    </div>
-  </div>
-</div>
-
+<header class="header">
+	<div class="header-left">
+		Inspens
+	</div>
+	<div class="header-right">
+		|||
+	</div>
+</header>
+<section class="main fr">
+	<div class="left full">
+		Income for: { <%this.base.names[this.base.pos].id%>. <%this.base.names[this.base.pos].name%> }
+	</div>
+	<div class="center full">
+		<select name="ip_add_income_type" id="ip_add_income_type" data-role="slider" class="ui-slider-label ui-slider-label-a ui-btn-active">
+			<option value="normal">Normal Income</option>
+			<option value="transfer">Transfer Income</option>
+		</select> 
+	</div>
+	<div class="left full">
+		<label for="ip_add_income_amount">Amount</label>
+		<input id="ip_add_income_amount" name="ip_add_income_amount" type="number" class="center full" />
+	</div>
+	<div class="left full">
+		<label for="ip_add_income_account">Account</label>
+		<button id="ip_add_income_account" name="ip_add_income_account" class="center full getpopup" >-</button>
+	</div>
+	<div class="left full">
+		<label for="ip_add_income_date">Date</label>
+        <input id="ip_add_income_date_" style="" type="hidden" value="<%this.edit_incomesexpenses_date%>"/>
+		<button id="ip_add_income_date" name="ip_add_income_date" class="center full getpopup" ><%this.edit_incomesexpenses_date%></button>
+	</div>
+	<div class="left full">
+		<label for="ip_add_income_description">Description</label>
+		<input id="ip_add_income_description" name="ip_add_income_description" class="left full" />
+	</div>
+	<div class="center full">
+		<button id="bt_add_income_save" class="notfull" >save</button>
+	</div>
+</section>
