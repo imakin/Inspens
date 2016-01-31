@@ -1,4 +1,0 @@
-#adb logcat | grep 2497
-adb logcat | grep -e Web -e sqlg -e PluginManager -e IInputConnectionWrapper 
-# -e dalvikvm
-# or
