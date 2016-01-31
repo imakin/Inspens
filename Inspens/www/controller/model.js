@@ -71,8 +71,6 @@ function getMonthSummary(type, month, scope, specificAccountId, baseAccountId, c
 	
 	if (type=="TRANSFERINCOME")
 	{//--this one is a bit different, (searching TRANSFEREXPENSE to baseaccount)
-		console.log("SELECT SUM(amount) as sum_amount FROM incomesexpenses WHERE from_account_id='"+
-					baseAccountId + "' AND type='TRANSFEREXPENSE' "+date_filter)
 		db.transaction(function(tx) {
 			tx.executeSql(
 				"SELECT SUM(amount) as sum_amount FROM incomesexpenses WHERE from_account_id='"+
@@ -83,10 +81,6 @@ function getMonthSummary(type, month, scope, specificAccountId, baseAccountId, c
 		});
 	}
 	else {
-		console.log("SELECT SUM(amount) as sum_amount FROM incomesexpenses "+
-					"WHERE base_account_id='"+baseAccountId +"' "+
-					"AND type='"+type+"' "+ 
-					date_filter + " " + account_filter)
 		db.transaction(function(tx) {
 			tx.executeSql(
 				"SELECT SUM(amount) as sum_amount FROM incomesexpenses "+

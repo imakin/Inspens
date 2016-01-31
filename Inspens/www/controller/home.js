@@ -95,7 +95,7 @@ home_ctl = {
 					ctx.base.total = res.rows.length;
 					ctx.base.number = ctx.base.names[ctx.base.pos].id;
 					
-					console.log("pos: "+ctx.base.pos+" and id:"+ctx.base.number);
+					//~ console.log("pos: "+ctx.base.pos+" and id:"+ctx.base.number);
 					
 					getMonthSummary("EXPENSE", 0, "BETWEEN", -1, ctx.base.number,
 						function(tx, res){
