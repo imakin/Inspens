@@ -11,4 +11,4 @@ script:
 - ls plugins/cordova-plugin-device/
 - ls plugins/com.admob.plugin/
 - hash cordova
-- cordova build android && ls
+
