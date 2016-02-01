@@ -224,3 +224,8 @@ input.fr {
   position: absolute;
   bottom: 0px;
   left: 0px; }
+
+header {
+  padding: 0.8em;
+  background-color: #141414;
+  color: white; }
