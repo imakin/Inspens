@@ -28,8 +28,12 @@ print(html_controller)
 compiled = ""
 with open(basedir+'/Inspens/www/index.html', 'r') as original:
 	page = original.read()
-	page1 = page[:page.find("<!-- START_VIEWS_AND_CONTROLLER -->")+35]+"\n"
-	page2 = "\t\t"+page[page.find("<!-- END_VIEWS_AND_CONTROLLER -->"):]
+	if (page.find("<!-- START_VIEWS_AND_CONTROLLER -->")<0):
+		page1 = page[:page.find("</head>")]+"<!-- START_VIEWS_AND_CONTROLLER -->"
+		page2 = "<!-- END_VIEWS_AND_CONTROLLER -->"+page[page.find("</head>"):]
+	else:
+		page1 = page[:page.find("<!-- START_VIEWS_AND_CONTROLLER -->")+35]+"\n"
+		page2 = "\t\t"+page[page.find("<!-- END_VIEWS_AND_CONTROLLER -->"):]
 	compiled = page1+html_views+html_controller+page2
 
 with open(basedir+'/Inspens/www/index.html', 'w') as original:
