@@ -7,25 +7,28 @@ MAINTARGET = $(MAIN:.html=.jump.html)
 VIEWS = $(shell find Inspens/www/views/ -type f -name '*.html')
 VIEWTARGETS = $(VIEWS:.html=.js)
 
-%.jump.html: %.html
+all: $(SOURCES) $(VIEWTARGETS) $(MAINTARGET)
+	#done compiling: scss, index, views
+
+%.js: %.html
+	python scripts/compile_views.py Inspens/www/views/
+	python scripts/compile_index.py ./
+	#compile views
+
+view: $(VIEWTARGETS)
+	#$(VIEWS)
+
+%.jump.html: $(view) %.html
 	cp $< $@
+
+html: $(MAINTARGET)
+	# compile index.html's
 
 %.css: %.scss
 	#compile scss'
 	sass  $< > $@
 
-all: $(SOURCES) $(VIEWTARGETS) $(MAINTARGET)
-	#done compiling: scss, index, views
 
 debug:
 	adb logcat | grep -e Web -e sqlg -e PluginManager -e IInputConnectionWrapper 
 
-html: $(MAINTARGET)
-	# compile index.html's
-
-%.js: %.html
-	python Inspens/www/views/compile.py Inspens/www/views/
-	#compile views
-
-view: $(VIEWTARGETS)
-	#$(VIEWS)
