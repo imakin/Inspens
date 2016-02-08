@@ -58,12 +58,11 @@ home_ctl = {
 			function() {
 				var sl = $("#page-container").scrollLeft();
 				var edge = $("#page-container").width();
-				terakhir = setTimeout(
+				scoll_catch_timeout = setTimeout(
 					function(){
 						home_ctl.sidescroll_once_val = $("#page-container").scrollLeft();
 						if (home_ctl.sidescroll_once_val==sl) {
-							clearTimeout(terakhir);
-							//~ console.log("jalan");
+							clearTimeout(scoll_catch_timeout);
 							var c1,c2;
 							var closest;
 							c1 = sl%edge;
@@ -78,7 +77,7 @@ home_ctl = {
 								ctx.base.pos = closest/edge +1;
 								model.incomesexpenses.ctx_reload_all(function(){
 									refreshTo("#home_base"+ctx.base.pos,room_home_perbase, ctx);
-									clearTimeout(terakhir);
+									clearTimeout(scoll_catch_timeout);
 								});
 							}
 						}
