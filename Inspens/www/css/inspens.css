@@ -29,6 +29,16 @@ button.full, input.full {
 .half {
   display: inline-block;
   width: 49.5%; }
+  .half .full {
+    width: 100%;
+    max-width: 240px; }
+
+/** if half with align left and inside is full, give padding **/
+.left.half .full {
+  margin-left: 2px; }
+
+.right.half .full {
+  margin-right: 2px; }
 
 div.inline {
   display: inline-block; }
@@ -61,14 +71,20 @@ div.inline {
   position: absolute;
   font-size: 0px;
   height: 80%;
+  background-color: #eeeeee;
+  color: #737373;
   overflow-y: auto;
   overflow-x: auto; }
   #page-container .dummy {
     clear: both; }
   #page-container > div {
     font-size: 10pt;
-    display: inline-block;
     vertical-align: top; }
+  #page-container button {
+    font-size: 0.9em;
+    color: black !important;
+    background-color: #d7d9d8 !important;
+    padding: 8px !important; }
 
 .space-vertical-2 {
   display: block;

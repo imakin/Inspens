@@ -1,6 +1,7 @@
 room_list_ctl = {
 	initialize: 
 			function() {
+				
 				//-- back button on Home must trigger to exit
 				document.addEventListener("backbutton", backButtonHandler, false);
 				function backButtonHandler(e )
@@ -30,6 +31,10 @@ room_list_ctl = {
 				for (var i = 0; i < parts.length; i++) {
 					var temp = parts[i].split("=");
 					$_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
+					if ($_GET['ctx.base.number']=="undefined")
+						$_GET['ctx.base.number'] = 0;
+					if ($_GET['ctx.base.pos']=="undefined")
+						$_GET['ctx.base.pos'] = 0;
 				}
 				if (!ctx.base)
 					ctx.base = {}
@@ -60,7 +65,11 @@ room_list_ctl = {
 					{
 						console_ctl.initialize();
 					}
-					else 
+					else if(window.location.hash.search("#load_data")>=0)
+					{
+						load_data_ctl.initialize();
+					}
+					else
 					{
 						home_ctl.initialize();
 					}
@@ -74,6 +83,7 @@ room_list_ctl = {
 				$("body").on("click", "#bt_goto_home", room_list_ctl.goto_home);
 				$("body").on("click", "#bt_goto_console", room_list_ctl.goto_console);
 				$("body").on("click", "#bt_goto_add_expense", room_list_ctl.goto_add_expense);
+				$("body").on("click", "#bt_goto_load_data", room_list_ctl.goto_load_data);
 				
 				$("body").on("click", "#menu", function(){$("#room_list_container").toggle();});
 			},
@@ -103,4 +113,9 @@ room_list_ctl = {
 			},
 	goto_edit_accounts:
 			function() {},
+	goto_load_data:
+			function() {
+				window.location = windowjump+"#load_data";
+				$("#room_list_container").hide();
+			},
 }

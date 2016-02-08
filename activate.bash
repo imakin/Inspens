@@ -111,10 +111,10 @@ else
 
 	autocompile () {
 		echo "auto compile .sass active"
-		nohup bash "$_INSPENSE_VENV/compile.bash" "$_INSPENSE_VENV"> /tmp/inspenscompile &
+		nohup bash "$_INSPENSE_VENV/makeloop.bash" "$_INSPENSE_VENV"> /tmp/inspenscompile &
 	}
 	stopcompile () {
-		kill $(ps aux | grep compile.bash | grep -v "grep" | cut -d " " -f4)
+		kill $(ps aux | grep makeloop.bash | grep -v "grep" | cut -d " " -f4)
 	}
 
 

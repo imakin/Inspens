@@ -73,7 +73,7 @@ var app = {
 					);
 				}
 		);
-		room_list_ctl.initialize();
+		room_list_ctl.initialize(); //-- the first one called
         account_list_ctl.initialize();
     },
     // Update DOM on a Received Event

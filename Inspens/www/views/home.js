@@ -78,11 +78,11 @@ room_home = ""+
 "		<div class=\"full\" style=\"height:1.5em\"> </div>"+
 "		"+
 "		<div class=\"full grid-container\">"+
-"			<div class=\"left half\">"+
-"				<button id=\"bt_home_add_income\">ADD INCOME</button>"+
-"			</div>"+
 "			<div class=\"right half\">"+
-"				<button id=\"bt_home_add_expense\">ADD EXPENSE</button>"+
+"				<button id=\"bt_home_add_income\" class=\"full\">ADD INCOME</button>"+
+"			</div>"+
+"			<div class=\"left half\">"+
+"				<button id=\"bt_home_add_expense\" class=\"full\">ADD EXPENSE</button>"+
 "			</div>"+
 "		</div>"+
 "		"+
@@ -90,15 +90,15 @@ room_home = ""+
 "		"+
 "		<div class=\"full grid-container\">"+
 "			<div class=\"full center\">"+
-"				<button id=\"bt_home_edit_accounts\" class=\"full\" style=\"max-width:240px;\">EDIT ACCOUNT</button>"+
+"				<button id=\"bt_home_edit_accounts\" class=\"full\" style=\"max-width:480px;\">EDIT ACCOUNT</button>"+
 "			</div>"+
 "		</div>"+
 "		<div class=\"full\" style=\"height:1em\"> </div>"+
 "		<div class=\"full grid-container\">"+
-"			<div class=\"half left\">"+
+"			<div class=\"right half\">"+
 "				<button id=\"bt_home_edit_incomes\" class=\"full\" style=\"max-width:240px;\">Edit Incomes</button>"+
 "			</div>"+
-"			<div class=\"half right\">"+
+"			<div class=\"left half\">"+
 "				<button id=\"bt_home_edit_expenses\" class=\"full\" style=\"max-width:240px;\">Edit Expenses</button>"+
 "			</div>"+
 "		</div>"+

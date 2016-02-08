@@ -34,7 +34,26 @@ button.full, input.full{
 .half{
 	display:inline-block;
 	width:49.5%;
+	.dummy{}
+	.full{
+		width:100%;
+		max-width:#{$pagemaxwidth/2};
+	}
 }
+/** if half with align left and inside is full, give padding **/
+.left.half{
+	.dummy{}
+	.full{
+		margin-left:2px;
+	}
+}
+.right.half{
+	.dummy{}
+	.full{
+		margin-right:2px;
+	}
+}
+
 div.inline{
 	display:inline-block;
 }
@@ -67,12 +86,13 @@ div.inline{
 	position:absolute;
 	font-size:0px;
 	height:80%;
+	background-color:#eeeeee;
+	color:#737373;
 	overflow-y:auto;
 	overflow-x:auto;
 	.dummy{clear:both;}
 	&>div{
 		font-size:$fontsizedefault;
-		display:inline-block;
 		vertical-align:top;
 	}
 	#page{
@@ -80,6 +100,12 @@ div.inline{
 	#page-left{
 	}
 	#page-right{
+	}
+	button{
+		font-size:0.9em;
+		color:black!important;
+		background-color:#d7d9d8!important;
+		padding:8px!important;
 	}
 }
 .space-vertical-2{
@@ -241,4 +267,7 @@ header{
 	padding:0.8em;
 	background-color:rgb(20,20,20);
 	color:rgb(255,255,255);
+}
+.home{
+	
 }
