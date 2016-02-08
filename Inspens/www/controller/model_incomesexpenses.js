@@ -106,107 +106,71 @@ model.incomesexpenses = {
 						ctx.base.total = res.rows.length;
 						ctx.base.number = ctx.base.names[ctx.base.pos].id;
 						
-						//~ console.log("pos: "+ctx.base.pos+" and id:"+ctx.base.number);
-						
-						getMonthSummary("EXPENSE", 0, "BETWEEN", -1, ctx.base.number,
-							function(tx, res){
-								if (res.rows.length<1 || res.rows.item(0).sum_amount==null) {
-									ctx.summary.total_expense = 0.0;
-								}
-								else {
-									ctx.summary.total_expense = parseFloat(res.rows.item(0).sum_amount);
-								}
-								getMonthSummary("INCOME", 0, "BETWEEN", -1, ctx.base.number,
-									function(tx,res){
-										if (res.rows.length<1 || res.rows.item(0).sum_amount==null) {
-											ctx.summary.total_income = 0.0;
-										}
-										else {
-											ctx.summary.total_income = parseFloat(res.rows.item(0).sum_amount);
-										}
-										getMonthSummary("TRANSFERINCOME", 0, "BETWEEN", -1, ctx.base.number,
-											function(tx,res){
-												if (res.rows.length<1 || res.rows.item(0).sum_amount==null) {
-													ctx.summary.total_transfer_income = 0.0;
-												}
-												else {
-													ctx.summary.total_transfer_income = parseFloat(res.rows.item(0).sum_amount);
-												}
-												getMonthSummary("TRANSFEREXPENSE", 0, "BETWEEN", -1, ctx.base.number,
-													function(tx,res){
-														if (res.rows.length<1 || res.rows.item(0).sum_amount==null) {
-															ctx.summary.total_transfer_expense = 0.0;
-														}
-														else {
-															ctx.summary.total_transfer_expense = parseFloat(res.rows.item(0).sum_amount);
-														}
-														done_callback();
-													}
-												);//--transfer expense
-											}
-										);//-- transfer income
-									}
-								);//--income
+						model.incomesexpenses.ctx_reload_sequence(
+							0, "BEFORE", -1, ctx.base.number, 
+							function(){
+								ctx.summary.last_period_balance = (
+									ctx.summary.total_income + 
+									ctx.summary.total_transfer_income -
+									ctx.summary.total_expense - 
+									ctx.summary.total_transfer_expense
+								);
+								model.incomesexpenses.ctx_reload_sequence(
+									0, "BETWEEN", -1, ctx.base.number, 
+									done_callback
+								);
 							}
-						);//--expense
+						);
 					},
 					function(){}
 				);	
 			},
-	ctx_reload_expense_tm: 
-			function(done_callback){
-				getMonthSummary("EXPENSE", 0, "BETWEEN", -1, ctx.base.number,
+	ctx_reload_sequence:
+			function(month, scope, specificAccountId, baseAccountId, cbfunction){
+				getMonthSummary("EXPENSE", 
+					month, scope, specificAccountId, baseAccountId,
+					function(tx, res){
+						if (res.rows.length<1 || res.rows.item(0).sum_amount==null) {
+							ctx.summary.total_expense = 0.0;
+						}
+						else {
+							ctx.summary.total_expense = parseFloat(res.rows.item(0).sum_amount);
+						}
+						getMonthSummary("INCOME",
+							month, scope, specificAccountId, baseAccountId,
 							function(tx, res){
-								if (res.rows.length<1 || res.rows.item(0).sum_amount==null) {
-									ctx.summary.total_expense = 0.0;
-								}
-								else {
-									ctx.summary.total_expense = parseFloat(res.rows.item(0).sum_amount);
-								}
-								done_callback();
-							}
-				);
-			},
-	ctx_reload_income_tm: 
-			function(done_callback){
-				getMonthSummary("INCOME", 0, "BETWEEN", -1, ctx.base.number,
-							function(tx,res){
 								if (res.rows.length<1 || res.rows.item(0).sum_amount==null) {
 									ctx.summary.total_income = 0.0;
 								}
 								else {
 									ctx.summary.total_income = parseFloat(res.rows.item(0).sum_amount);
 								}
-								done_callback();
+								getMonthSummary("TRANSFEREXPENSE",
+									month, scope, specificAccountId, baseAccountId,
+									function(tx, res){
+										if (res.rows.length<1 || res.rows.item(0).sum_amount==null) {
+											ctx.summary.total_transfer_expense = 0.0;
+										}
+										else {
+											ctx.summary.total_transfer_expense = parseFloat(res.rows.item(0).sum_amount);
+										}
+										getMonthSummary("TRANSFEREXPENSE",
+											month, scope, specificAccountId, baseAccountId,
+											function(tx, res){
+												if (res.rows.length<1 || res.rows.item(0).sum_amount==null) {
+													ctx.summary.total_transfer_income = 0.0;
+												}
+												else {
+													ctx.summary.total_transfer_income = parseFloat(res.rows.item(0).sum_amount);
+												}
+												cbfunction();
+											}
+										);
+									}
+								);
 							}
-				);
-			},
-	ctx_reload_transferincome_tm: 
-			function(done_callback){
-				getMonthSummary("TRANSFERINCOME", 0, "BETWEEN", -1, ctx.base.number,
-							function(tx,res){
-								if (res.rows.length<1 || res.rows.item(0).sum_amount==null) {
-									ctx.summary.total_transfer_income = 0.0;
-								}
-								else {
-									ctx.summary.total_transfer_income = parseFloat(res.rows.item(0).sum_amount);
-								}
-								done_callback();
-							}
-				);
-			},
-	ctx_reload_transferexpense_tm: 
-			function(done_callback){
-				getMonthSummary("TRANSFEREXPENSE", 0, "BETWEEN", -1, ctx.base.number,
-							function(tx,res){
-								if (res.rows.length<1 || res.rows.item(0).sum_amount==null) {
-									ctx.summary.total_transfer_expense = 0.0;
-								}
-								else {
-									ctx.summary.total_transfer_expense = parseFloat(res.rows.item(0).sum_amount);
-								}
-								done_callback();
-							}
+						);
+					}
 				);
 			},
 };

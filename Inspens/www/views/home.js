@@ -71,7 +71,7 @@ room_home = ""+
 "				Balance"+
 "			</div>"+
 "			<div class=\"right half\">"+
-"				<%this.setting.currency%> <%this.summary.total_transfer_income + this.summary.total_income - this.summary.total_expense - this.summary.total_transfer_expense%>"+
+"				<%this.setting.currency%> <%this.summary.last_period_balance + this.summary.total_transfer_income + this.summary.total_income - this.summary.total_expense - this.summary.total_transfer_expense%>"+
 "			</div>"+
 "		</div>"+
 "		"+

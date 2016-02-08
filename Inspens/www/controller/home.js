@@ -41,6 +41,7 @@ home_ctl = {
 				$("body").off("click", "#bt_home_edit_accounts", room_list_ctl.goto_edit_accounts);
 				$("body").on("click", "#bt_home_edit_accounts", room_list_ctl.goto_edit_accounts);
 				terakhir = null;
+				$("#page-container").off("scroll",home_ctl.sidescroll_handler_new);
 				$("#page-container").on("scroll",home_ctl.sidescroll_handler_new);
 				
 				
@@ -48,7 +49,7 @@ home_ctl = {
 			},
 	close:
 			function(){
-				$(window).off("swipe",home_ctl.on_swipe_handler);
+				$("#page-container").off("scroll",home_ctl.sidescroll_handler_new);
 			},
 	not_currently_scrolling: true,
 	sidescroll_once: false,
@@ -62,6 +63,7 @@ home_ctl = {
 						home_ctl.sidescroll_once_val = $("#page-container").scrollLeft();
 						if (home_ctl.sidescroll_once_val==sl) {
 							clearTimeout(terakhir);
+							//~ console.log("jalan");
 							var c1,c2;
 							var closest;
 							c1 = sl%edge;
@@ -70,12 +72,15 @@ home_ctl = {
 								closest = sl+c2;
 							else
 								closest = sl-c1;
-
 							scrollLeftOverflow("page-container", closest);
-							ctx.base.pos = closest/edge +1;
-							model.incomesexpenses.ctx_reload_all(function(){
-								refreshTo("#home_base"+ctx.base.pos,room_home_perbase, ctx);
-							});
+							
+							if (ctx.base.pos!=(closest/edge +1)){
+								ctx.base.pos = closest/edge +1;
+								model.incomesexpenses.ctx_reload_all(function(){
+									refreshTo("#home_base"+ctx.base.pos,room_home_perbase, ctx);
+									clearTimeout(terakhir);
+								});
+							}
 						}
 					},
 					(winW*0.6)%500
